@@ -4,6 +4,7 @@ import AboutSection from "../components/AboutSection";
 import SelectedWorksPreview from "../components/SelectedWorksPreview";
 import SiteNav from "../components/SiteNav";
 import { getItemsByCategory, portfolioCategories } from "../data/portfolioData";
+import { assetPath } from "../utils/assetPath";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -139,7 +140,7 @@ export default function HomePage() {
                 <p className="text-xs font-semibold uppercase text-sky-50/65">{category.partLabel}</p>
                 <h2 className="mt-4 text-lg font-semibold">{category.titleEN}</h2>
                 <p className="mt-2 text-sm font-light text-white/72">{category.titleCN}</p>
-                {firstItem && <img src={firstItem.coverImage} alt={category.titleCN} className="mt-5 h-auto w-full rounded-md border border-white/18 bg-white/8 object-contain opacity-90 transition duration-700 ease-apple group-hover:scale-[1.02] group-hover:opacity-100" loading="lazy" />}
+                {firstItem && <img src={assetPath(firstItem.coverImage)} alt={category.titleCN} className="mt-5 h-auto w-full rounded-md border border-white/18 bg-white/8 object-contain opacity-90 transition duration-700 ease-apple group-hover:scale-[1.02] group-hover:opacity-100" loading="lazy" />}
               </motion.a>
             ))}
           </div>

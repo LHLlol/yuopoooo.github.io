@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { assetPath } from "../utils/assetPath";
 
 export type PreviewImage = {
   src: string;
@@ -81,7 +82,7 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
             onClick={(event) => event.stopPropagation()}
           >
             <img
-              src={image.src}
+              src={assetPath(image.src)}
               alt={image.title}
               className="max-h-[calc(100vh-150px)] w-auto max-w-full rounded-lg object-contain shadow-[0_0_110px_rgba(125,211,252,0.38)]"
             />

@@ -1,5 +1,6 @@
 import Reveal from "./Reveal";
 import { profileData } from "../data/profileData";
+import { assetPath } from "../utils/assetPath";
 
 export default function AboutSection() {
   return (
@@ -20,7 +21,7 @@ export default function AboutSection() {
           <Reveal>
             <aside className="overflow-hidden rounded-[18px] border border-white/70 bg-white/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.7),0_30px_90px_rgba(0,113,190,.12)] backdrop-blur-2xl">
               <div className="overflow-hidden rounded-[14px] border border-sky-100 bg-white shadow-[0_22px_70px_rgba(0,94,170,.12)]">
-                <img src={profileData.avatar} alt={profileData.nameCN} className="aspect-[4/5] h-auto w-full object-cover object-top" loading="eager" />
+                <img src={assetPath(profileData.avatar)} alt={profileData.nameCN} className="aspect-[4/5] h-auto w-full object-cover object-top" loading="eager" />
               </div>
               <div className="px-2 pb-3 pt-6">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">{profileData.nameEN}</p>

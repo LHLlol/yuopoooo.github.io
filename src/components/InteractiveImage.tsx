@@ -1,3 +1,5 @@
+import { assetPath } from "../utils/assetPath";
+
 type InteractiveImageProps = {
   src: string;
   title: string;
@@ -33,7 +35,7 @@ export default function InteractiveImage({
     >
       <div className={"relative overflow-hidden rounded-lg " + mediaClassName}>
         <img
-          src={src}
+          src={assetPath(src)}
           alt={title}
           loading={priority ? "eager" : "lazy"}
           className={

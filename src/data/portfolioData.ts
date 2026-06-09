@@ -42,8 +42,8 @@ type WorkOptions = {
   responsibilities?: string[];
 };
 
-const imageForPage = (page: number) => "/portfolio/page-" + String(page).padStart(2, "0") + ".webp";
-const handdrawnExtra = "/portfolio/handdrawn-graphic/handdrawn-graphic-extra-01.jpg";
+const imageForPage = (page: number) => "portfolio/page-" + String(page).padStart(2, "0") + ".webp";
+const handdrawnExtra = "portfolio/handdrawn-graphic/handdrawn-graphic-extra-01.jpg";
 
 const categoryMeta: Record<PortfolioCategoryId, Pick<PortfolioCategory, "partLabel" | "categorySubtitle">> = {
   "handdrawn-graphic": {

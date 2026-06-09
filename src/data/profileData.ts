@@ -31,7 +31,7 @@ export const profileData: ProfileData = {
   location: "Hangzhou, Zhejiang",
   email: "lhl20040919@gmail.com",
   phone: "18806535299",
-  avatar: "/profile/avatar.png",
+  avatar: "profile/avatar.png",
   summary:
     "动画专业本科背景，长期关注视觉设计、动态影像与新型内容生产方式。具备从手绘草图、视觉系统、活动主视觉到剪辑包装、三维辅助和 AIGC 生成的综合创作能力，能够把概念快速转译成可执行、可传播、可落地的视觉方案。",
   education: {
