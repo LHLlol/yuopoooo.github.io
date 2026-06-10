@@ -44,6 +44,11 @@ type WorkOptions = {
 
 const imageForPage = (page: number) => "portfolio/page-" + String(page).padStart(2, "0") + ".webp";
 const handdrawnExtra = "portfolio/handdrawn-graphic/handdrawn-graphic-extra-01.jpg";
+const productDesignBoardImages = [
+  "portfolio/product-design/product-design-board-01.jpg",
+  "portfolio/product-design/product-design-board-02.jpg",
+];
+const productDesignCreativeRender = "portfolio/product-design/product-design-creative-render-01.jpg";
 
 const categoryMeta: Record<PortfolioCategoryId, Pick<PortfolioCategory, "partLabel" | "categorySubtitle">> = {
   "handdrawn-graphic": {
@@ -176,13 +181,58 @@ export const portfolioItems: PortfolioItem[] = [
     "国际大学生配音大赛视觉系统",
     "International Dubbing Contest Visual System",
     ["Graphic Design", "Visual Identity", "Event"],
-    "为国际大学生配音大赛搭建活动视觉系统，完成核心视觉、海报喷绘、服装周边、视频包装及开闭幕式相关物料，在短周期内支撑大型赛事传播与现场使用。",
+    "为第五届国际大学生配音大赛搭建活动视觉系统，完成主视觉喷绘、线上直播素材与赛事周边延展，让赛事传播在屏幕、现场和物料中保持统一识别。",
     {
       year: "2024",
-      role: "核心视觉设计 / 活动物料延展 / 动效包装协作",
-      images: [imageForPage(9), imageForPage(10), imageForPage(11), imageForPage(12), imageForPage(13), imageForPage(14)],
-      highlights: ["24 张视觉物料", "9 件周边延展", "大型活动传播"],
-      responsibilities: ["完成赛事核心视觉与喷绘海报设计", "延展服装、IP 周边与线上传播物料", "参与视频和开闭幕式动效包装输出"],
+      role: "核心视觉设计 / 活动物料延展 / 线上素材输出",
+      images: [imageForPage(9), imageForPage(10)],
+      highlights: ["赛事主视觉", "周边延展", "直播素材"],
+      responsibilities: ["完成赛事核心视觉与喷绘画面设计", "延展证件、手提袋、引导牌和服装周边", "整理线上直播与现场传播所需视觉素材"],
+    },
+  ),
+  createWork(
+    11,
+    "handdrawn-graphic",
+    "良渚论坛开幕式话剧视觉设计",
+    "Liangzhu Forum Opening Play Visuals",
+    ["Graphic Design", "Stage Visual", "Event"],
+    "围绕良渚论坛开幕式话剧《施昕更：良渚1937》进行主视觉与落地物料设计，将历史叙事、人物关系和舞台场景统一到活动传播画面中。",
+    {
+      year: "2024",
+      role: "主视觉设计 / 话剧海报 / 场景道具视觉",
+      images: [imageForPage(11), imageForPage(12)],
+      highlights: ["话剧主视觉", "签名墙设计", "舞台道具"],
+      responsibilities: ["完成话剧主视觉喷绘与字体设计", "设计签名墙和角色海报视觉", "配合舞台道具、景片与现场落地画面输出"],
+    },
+  ),
+  createWork(
+    13,
+    "handdrawn-graphic",
+    "浙江传媒学院播音主持艺术学院毕业晚会视觉设计",
+    "Zhejiang Communication Graduation Gala Visuals",
+    ["Graphic Design", "Event", "Visual Identity"],
+    "为浙江传媒学院播音主持艺术学院毕业晚会设计主视觉与相关物料，以 Blue Moment 为核心概念组织色彩、版式和毕业仪式感表达。",
+    {
+      year: "2025",
+      role: "主视觉设计 / IP 设计 / 活动物料延展",
+      images: [imageForPage(13)],
+      highlights: ["毕业晚会", "Blue Moment", "物料系统"],
+      responsibilities: ["完成毕业晚会主视觉喷绘设计", "延展头像、手幅、工牌等活动物料", "统一晚会视觉识别与现场传播画面"],
+    },
+  ),
+  createWork(
+    14,
+    "handdrawn-graphic",
+    "浙江轨道集团浙江省工程研究中心揭牌仪式视觉设计",
+    "Zhejiang Rail Engineering Research Center Ceremony Visuals",
+    ["Graphic Design", "Event", "Branding"],
+    "为浙江轨道集团浙江省工程研究中心揭牌仪式完成主视觉与现场物料设计，突出轨道交通、工程研究和正式仪式场景的专业感。",
+    {
+      year: "2024",
+      role: "主视觉设计 / 签名墙设计 / 仪式物料",
+      images: [imageForPage(14)],
+      highlights: ["揭牌仪式", "蓝色科技感", "现场物料"],
+      responsibilities: ["完成揭牌仪式主视觉喷绘设计", "设计签名墙、桌牌、工作证与指引画面", "确保现场物料风格统一并适配仪式场景"],
     },
   ),
   createWork(
@@ -196,6 +246,38 @@ export const portfolioItems: PortfolioItem[] = [
       role: "品牌设计 / 活动视觉",
       highlights: ["品牌延展", "活动物料", "视觉统一"],
       responsibilities: ["建立活动视觉基调", "完成主视觉与多尺寸物料延展", "协调信息层级和传播场景"],
+    },
+  ),
+  createWork(
+    31,
+    "handdrawn-graphic",
+    "产品设计版图输出",
+    "Product Design Board Output",
+    ["Product Design", "Graphic Design", "AIGC"],
+    "围绕联通文创方向进行产品设计版图输出，将品牌符号、产品结构、使用场景和展示信息整合成完整的提案画面。",
+    {
+      year: "2025",
+      role: "产品设计 / 版图输出 / 视觉提案",
+      coverImage: productDesignBoardImages[0],
+      images: productDesignBoardImages,
+      highlights: ["产品版图", "联通文创", "提案输出"],
+      responsibilities: ["整理产品概念、结构和使用场景", "完成产品展示版式与信息层级设计", "输出适合汇报与展示的产品设计画面"],
+    },
+  ),
+  createWork(
+    32,
+    "handdrawn-graphic",
+    "产品设计创意渲染图输出",
+    "Creative Product Render Output",
+    ["Product Design", "Rendering", "AIGC"],
+    "以产品创意渲染为核心，探索包装、香氛、饮品、食品等不同场景下的视觉表现，用渲染画面强化产品概念和氛围表达。",
+    {
+      year: "2025",
+      role: "创意渲染 / 产品视觉 / AIGC 画面输出",
+      coverImage: productDesignCreativeRender,
+      images: [productDesignCreativeRender],
+      highlights: ["创意渲染", "产品氛围", "AIGC 输出"],
+      responsibilities: ["提炼不同产品方向的视觉关键词", "完成产品渲染画面与场景氛围输出", "整理可用于作品展示的创意视觉合集"],
     },
   ),
   createWork(
