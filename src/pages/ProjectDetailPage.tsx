@@ -5,6 +5,7 @@ import Lightbox, { type PreviewImage } from "../components/Lightbox";
 import Reveal from "../components/Reveal";
 import SiteNav from "../components/SiteNav";
 import { type PortfolioItem } from "../data/portfolioData";
+import { assetPath } from "../utils/assetPath";
 
 type ProjectDetailPageProps = {
   item: PortfolioItem;
@@ -12,8 +13,18 @@ type ProjectDetailPageProps = {
 
 export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const [storyboardIndex, setStoryboardIndex] = useState<number | null>(null);
   const previewImages: PreviewImage[] = useMemo(
     () => item.images.map((src) => ({ src, title: item.titleCN, subtitle: item.categorySubtitle })),
+    [item],
+  );
+  const storyboardImages: PreviewImage[] = useMemo(
+    () =>
+      item.storyboard?.images.map((src, index) => ({
+        src,
+        title: item.storyboard?.title ?? item.titleCN,
+        subtitle: `Storyboard ${String(index + 1).padStart(2, "0")}`,
+      })) ?? [],
     [item],
   );
 
@@ -95,6 +106,110 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                 </Reveal>
               </section>
 
+              {item.aigcWorkflow && (
+                <section className="mt-14 border-t border-sky-200 pt-10">
+                  <Reveal>
+                    <div className="max-w-3xl">
+                      <p className="text-sm font-semibold uppercase text-portfolioBlue">AIGC Production Pipeline</p>
+                      <h3 className="mt-3 text-3xl font-black text-inkBlue">生成式动画制作流程</h3>
+                      <p className="mt-4 text-sm leading-7 text-slate-600">
+                        以分镜和关键帧为核心控制层，将生成模型用于视觉探索与动态执行，并通过人工筛选、修复和后期确保叙事与镜头连续性。
+                      </p>
+                    </div>
+                  </Reveal>
+                  <div className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-2">
+                    {item.aigcWorkflow.map((stage, index) => (
+                      <Reveal key={stage.title} delay={(index % 2) * 80}>
+                        <article className="border-t border-sky-200 pt-5">
+                          <div className="flex items-start gap-4">
+                            <span className="text-sm font-black text-portfolioBlue">{String(index + 1).padStart(2, "0")}</span>
+                            <div>
+                              <h4 className="text-xl font-semibold text-slate-950">{stage.title}</h4>
+                              <p className="mt-1 text-xs font-semibold uppercase text-slate-400">{stage.tools}</p>
+                              <p className="mt-4 text-sm leading-7 text-slate-600">{stage.detail}</p>
+                            </div>
+                          </div>
+                        </article>
+                      </Reveal>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {item.promptExamples && (
+                <section className="mt-14 border-t border-sky-200 pt-10">
+                  <Reveal>
+                    <div className="max-w-3xl">
+                      <p className="text-sm font-semibold uppercase text-portfolioBlue">Prompt Engineering</p>
+                      <h3 className="mt-3 text-3xl font-black text-inkBlue">镜头提示词应用</h3>
+                      <p className="mt-4 text-sm leading-7 text-slate-600">
+                        提示词按视觉条件、摄影机运动和稳定性约束分层编写，便于在 Lovart 中迭代关键帧，并向 Seedance 传递明确的动态意图。
+                      </p>
+                    </div>
+                  </Reveal>
+                  <div className="mt-8 grid gap-7">
+                    {item.promptExamples.map((example, index) => (
+                      <Reveal key={example.shot + example.title} delay={(index % 2) * 70}>
+                        <article className="grid gap-5 border-t border-sky-200 py-6 lg:grid-cols-[190px_1fr]">
+                          <div>
+                            <p className="text-xs font-semibold uppercase text-portfolioBlue">{example.shot}</p>
+                            <h4 className="mt-2 text-xl font-semibold text-slate-950">{example.title}</h4>
+                          </div>
+                          <dl className="grid gap-5 text-sm leading-7 text-slate-600">
+                            <div>
+                              <dt className="font-semibold text-slate-900">Visual Prompt / 画面</dt>
+                              <dd className="mt-1">{example.visualPrompt}</dd>
+                            </div>
+                            <div>
+                              <dt className="font-semibold text-slate-900">Motion Prompt / 动态</dt>
+                              <dd className="mt-1">{example.motionPrompt}</dd>
+                            </div>
+                            <div>
+                              <dt className="font-semibold text-slate-900">Control / 约束</dt>
+                              <dd className="mt-1">{example.control}</dd>
+                            </div>
+                          </dl>
+                        </article>
+                      </Reveal>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {item.storyboard && (
+                <section className="mt-14 border-t border-sky-200 pt-10">
+                  <Reveal>
+                    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                      <div className="max-w-3xl">
+                        <p className="text-sm font-semibold uppercase text-portfolioBlue">Storyboard Breakdown</p>
+                        <h3 className="mt-3 text-3xl font-black text-inkBlue">{item.storyboard.title}</h3>
+                        <p className="mt-4 text-sm leading-7 text-slate-600">{item.storyboard.summary}</p>
+                      </div>
+                      <a
+                        href={assetPath(item.storyboard.document)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-fit shrink-0 rounded-full border border-portfolioBlue px-5 py-2 text-sm font-semibold text-inkBlue transition hover:-translate-y-0.5 hover:bg-white"
+                      >
+                        Open Full Storyboard / 查看完整分镜
+                      </a>
+                    </div>
+                  </Reveal>
+                  <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                    {item.storyboard.images.map((src, index) => (
+                      <InteractiveImage
+                        key={src}
+                        src={src}
+                        title={item.storyboard?.title ?? item.titleCN}
+                        subtitle={`Storyboard ${String(index + 1).padStart(2, "0")}`}
+                        onOpen={() => setStoryboardIndex(index)}
+                        mediaClassName="aspect-[16/11] bg-white"
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
               <section className="mt-12 border-t border-sky-200 pt-10">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Work Gallery</p>
                 <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -116,6 +231,9 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
 
       <AnimatePresence>
         {previewIndex !== null && <Lightbox images={previewImages} activeIndex={previewIndex} onChange={setPreviewIndex} onClose={() => setPreviewIndex(null)} />}
+        {storyboardIndex !== null && (
+          <Lightbox images={storyboardImages} activeIndex={storyboardIndex} onChange={setStoryboardIndex} onClose={() => setStoryboardIndex(null)} />
+        )}
       </AnimatePresence>
     </main>
   );

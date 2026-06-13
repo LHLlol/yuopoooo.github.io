@@ -4,6 +4,27 @@ export type PortfolioCategoryId =
   | "video"
   | "script";
 
+export type AigcWorkflowStage = {
+  title: string;
+  tools: string;
+  detail: string;
+};
+
+export type PromptExample = {
+  shot: string;
+  title: string;
+  visualPrompt: string;
+  motionPrompt: string;
+  control: string;
+};
+
+export type StoryboardInfo = {
+  title: string;
+  summary: string;
+  document: string;
+  images: string[];
+};
+
 export type PortfolioItem = {
   id: string;
   titleCN: string;
@@ -21,6 +42,9 @@ export type PortfolioItem = {
   categorySubtitle: string;
   highlights: string[];
   responsibilities: string[];
+  aigcWorkflow?: AigcWorkflowStage[];
+  promptExamples?: PromptExample[];
+  storyboard?: StoryboardInfo;
 };
 
 export type PortfolioCategory = {
@@ -40,6 +64,9 @@ type WorkOptions = {
   previewImages?: string[];
   highlights?: string[];
   responsibilities?: string[];
+  aigcWorkflow?: AigcWorkflowStage[];
+  promptExamples?: PromptExample[];
+  storyboard?: StoryboardInfo;
 };
 
 const imageForPage = (page: number) => "portfolio/page-" + String(page).padStart(2, "0") + ".webp";
@@ -49,6 +76,14 @@ const productDesignBoardImages = [
   "portfolio/product-design/product-design-board-02.jpg",
 ];
 const productDesignCreativeRender = "portfolio/product-design/product-design-creative-render-01.jpg";
+const huanyuStoryboardImages = Array.from(
+  { length: 5 },
+  (_, index) => `portfolio/animation/huanyu-jixi/storyboard/huanyu-jixi-storyboard-${String(index + 1).padStart(2, "0")}.webp`,
+);
+const xianniStoryboardImages = Array.from(
+  { length: 3 },
+  (_, index) => `portfolio/animation/xianni-xunmu/storyboard/xianni-xunmu-storyboard-${String(index + 1).padStart(2, "0")}.webp`,
+);
 
 const categoryMeta: Record<PortfolioCategoryId, Pick<PortfolioCategory, "partLabel" | "categorySubtitle">> = {
   "handdrawn-graphic": {
@@ -98,6 +133,9 @@ const createWork = (
     categorySubtitle: categoryMeta[category].categorySubtitle,
     highlights: options.highlights ?? ["视觉表达", "版面组织", "叙事呈现"],
     responsibilities: options.responsibilities ?? ["视觉概念提炼", "画面与版式组织", "多媒介输出整理"],
+    aigcWorkflow: options.aigcWorkflow,
+    promptExamples: options.promptExamples,
+    storyboard: options.storyboard,
   };
 };
 
@@ -113,7 +151,7 @@ export const portfolioCategories: PortfolioCategory[] = [
     id: "animation",
     titleEN: "Animation",
     titleCN: "二维三维动画方向",
-    intro: "聚焦概念设定、关键画面、三维场景与动态影像实验，展示从世界观到镜头画面的构建能力。",
+    intro: "聚焦 AIGC 动画制作、概念设定、分镜拆解与动态影像实验，展示从叙事设计、提示词工程到关键帧一致性和图生视频后期的完整工作流。",
     ...categoryMeta.animation,
   },
   {
@@ -281,59 +319,212 @@ export const portfolioItems: PortfolioItem[] = [
     },
   ),
   createWork(
-    17,
-    "animation",
-    "概念设定",
-    "Concept Art Set",
-    ["Concept Art", "Animation", "Scene"],
-    "通过概念图和场景设定建立动画世界观，强调空间关系、材质情绪和镜头氛围，为后续动画画面提供视觉基础。",
-    {
-      role: "概念设计 / 场景设定",
-      images: [imageForPage(17)],
-      highlights: ["世界观构建", "场景视觉", "镜头氛围"],
-      responsibilities: ["提炼故事视觉关键词", "绘制场景与气氛图", "建立动画画面的风格参考"],
-    },
-  ),
-  createWork(
     18,
     "animation",
-    "动画关键画面",
-    "Animation Key Visuals",
-    ["Animation", "Motion", "Key Visual"],
-    "通过多组关键画面呈现动画叙事节奏与视觉风格，展示镜头画面、角色状态和动态影像的情绪控制能力。",
+    "可画·生成未来 AIGC 动画短片",
+    "Generative Future AIGC Short Film",
+    ["AIGC Animation", "Motion", "Visual Development"],
+    "围绕生成式内容创作主题构建赛博城市、角色与品牌化动态画面，将概念设定、关键帧生成、图生视频和后期包装整合为短片制作流程。",
     {
-      role: "动画视觉 / 关键帧设计",
-      images: [imageForPage(18)],
-      highlights: ["关键画面", "叙事节奏", "影像风格"],
-      responsibilities: ["设计动画关键帧画面", "梳理镜头节奏与画面变化", "统一角色状态和视觉氛围"],
+      year: "2025",
+      role: "AIGC 视觉开发 / 动态生成 / 剪辑包装",
+      images: [imageForPage(19)],
+      highlights: ["生成式动画", "赛博视觉", "动态包装"],
+      responsibilities: ["在 Lovart 中完成情绪板、角色与场景方向探索", "将筛选后的关键帧输入 Seedance 系列模型进行镜头动态生成", "在后期中修复时序跳变并完成字幕、节奏和声音包装"],
+      aigcWorkflow: [
+        {
+          title: "概念与视觉母版",
+          tools: "Lovart / Moodboard / Reference Image",
+          detail: "拆分赛博城市、角色状态、品牌色和镜头情绪，在多模型画布中并行探索构图与风格，筛选可作为后续镜头统一基准的视觉母版。",
+        },
+        {
+          title: "关键帧一致性",
+          tools: "Lovart / Image Reference / Prompt Iteration",
+          detail: "固定角色轮廓、蓝粉配色、服装与城市光源关系，通过参考图和提示词迭代减少跨镜头的造型漂移。",
+        },
+        {
+          title: "图生视频",
+          tools: "Seedance Series / Image-to-Video",
+          detail: "把关键帧作为视觉条件，分别描述主体动作、摄影机运动、速度和时间连续性，并以短镜头多版本生成方式控制动态结果。",
+        },
+        {
+          title: "剪辑与动态包装",
+          tools: "After Effects / Premiere Pro",
+          detail: "对生成片段进行速度重映射、遮罩修复、转场与文字包装，统一镜头节奏、色彩和声音反馈。",
+        },
+      ],
+      promptExamples: [
+        {
+          shot: "Scene 01",
+          title: "赛博城市建立镜头",
+          visualPrompt: "夜间未来都市，蓝紫与高饱和粉色霓虹，层叠电子屏幕和高楼形成纵深，二维动画质感，清晰轮廓光，宽银幕构图。",
+          motionPrompt: "摄影机缓慢向前推进并轻微上摇，远处灯牌依次亮起，城市光带保持稳定透视，节奏由静至动。",
+          control: "锁定建筑透视和主色，不新增文字与标志，避免楼体融化、灯牌闪烁跳变和镜头突然加速。",
+        },
+        {
+          shot: "Scene 02",
+          title: "角色坠落与转场",
+          visualPrompt: "蓝发动画角色置于黑色空间与粉色发光图形之间，服装和发型保持参考图一致，强背光，动势构图。",
+          motionPrompt: "角色缓慢下坠并产生轻微旋转，衣摆与头发受到空气阻力，镜头跟随下降，发光图形形成视线引导。",
+          control: "保持面部结构、四肢数量和服装细节，不改变角色身份，避免肢体扭曲、背景纹理爬动和无关物体出现。",
+        },
+      ],
     },
   ),
   createWork(
     19,
     "animation",
-    "寰宇极曦概念动画实验",
-    "AIGC Animation Practice",
-    ["Motion", "AIGC", "Editing"],
-    "以概念动画短片为基础，将传统动画思维与 AIGC 视觉生成结合，用于创意发散、画面验证和动态影像表达。",
+    "寰宇极曦 AIGC 概念动画",
+    "Huanyu Jixi AIGC Concept Film",
+    ["AIGC Animation", "Storyboard", "Chinese Aesthetics"],
+    "以中国古代物理发明与科学探索为叙事母题，通过 20 镜、约 101 秒的分镜设计，将浑天仪、手稿、日晷与人物思辨转译为融合二维、三维和生成式影像的概念短片。",
     {
       year: "2025",
-      role: "AIGC 视觉生成 / 动态影像实验",
-      images: [imageForPage(19), imageForPage(21)],
-      highlights: ["AIGC 生成", "动态节奏", "竞赛获奖"],
-      responsibilities: ["进行提示词迭代与视觉生成", "整理关键画面与动态节奏", "参与短片视觉风格和成片表达优化"],
+      role: "分镜设计 / AIGC 视觉开发 / 动态生成与后期",
+      images: [imageForPage(17), imageForPage(18)],
+      highlights: ["20 镜分镜", "AIGC 动画流程", "竞赛获奖"],
+      responsibilities: ["将科学史文本拆解为意象、景别、时长和运镜明确的 20 镜分镜", "在 Lovart 中建立青铜、纸张、日晷和黑白空间的材质与光线体系", "使用 Seedance 系列模型生成镜头动态，并完成时序修复、剪辑、字幕与声音设计"],
+      aigcWorkflow: [
+        {
+          title: "叙事拆解与镜头规划",
+          tools: "Script Breakdown / Previs Shot",
+          detail: "将古代物理发展史提炼为浑天仪、物理启蒙、手稿、日晷与文明群像等视觉节点，明确 20 个镜头的景别、时长、音效和运镜。",
+        },
+        {
+          title: "Lovart 视觉开发",
+          tools: "Lovart / Style Board / Multi-model Exploration",
+          detail: "围绕青铜流光、黑白极简空间、漂浮纸张和金色曦光建立情绪板，在同一画布中比较构图、材质和光线方案，形成稳定的视觉基准。",
+        },
+        {
+          title: "关键帧与一致性控制",
+          tools: "Reference Image / Prompt Iteration / Keyframe Selection",
+          detail: "先生成静态关键帧，再锁定主体比例、镜头轴线、色温与材质关键词；通过参考图复用和负向约束控制跨镜头的风格漂移。",
+        },
+        {
+          title: "Seedance 动态生成",
+          tools: "Seedance Series / Image-to-Video",
+          detail: "把关键帧与分镜运镜说明组合为动态提示词，分别控制环绕、推远、上摇和静止镜头，并通过多版本短片段测试选择运动最稳定的结果。",
+        },
+        {
+          title: "后期整合与人工修复",
+          tools: "After Effects / Premiere Pro / Sound Design",
+          detail: "对生成结果进行镜头裁切、速度重映射、局部遮罩和帧间修复，再统一字幕、色彩、环境音与音乐节奏，确保叙事连续性由人工判断主导。",
+        },
+      ],
+      promptExamples: [
+        {
+          shot: "Shot 01 · 6s",
+          title: "浑天仪开场",
+          visualPrompt: "青铜铸造的中国古代浑天仪立于地平线，龙首结构庄严，东方日出，金红曦光沿铜制纹理流动，史诗感，低饱和天空，电影级体积光。",
+          motionPrompt: "摄影机缓慢向下并绕主体旋转，太阳从地平线稳定升起，金属反光随视角自然变化，节奏肃穆。",
+          control: "保持浑天仪结构完整和地平线稳定，不增加现代机械，不改变龙首数量，避免金属形体融化和日轮跳动。",
+        },
+        {
+          shot: "Shot 02 · 7s",
+          title: "物理启蒙",
+          visualPrompt: "人物背对镜头站在极简黑色竖条空间，顶部单一白色光源，黑白几何与微弱色彩渐变，超现实主义，存在主义氛围，强烈纵深。",
+          motionPrompt: "摄影机缓慢环绕并轻微上升，人物保持静止，顶部光束稳定，空间条状结构产生克制视差。",
+          control: "锁定人物背影和竖直结构，禁止面部转向镜头，避免多余人物、光源漂移和背景弯曲。",
+        },
+        {
+          shot: "Shot 03 · 6s",
+          title: "手稿飘扬",
+          visualPrompt: "古代物理手稿悬浮在黑白空间，隔栏光影投射地面，宣纸纤维与墨迹清晰，纸页像凝固思绪在现实与想象之间漂浮。",
+          motionPrompt: "固定镜头，纸张以不同相位缓慢浮动和轻微旋转，光影保持方向一致，不产生强风感。",
+          control: "保持纸张文字和边缘稳定，不生成现代印刷物，不让纸页互相穿插，避免墨迹闪烁。",
+        },
+        {
+          shot: "Shot 06 · 3s",
+          title: "日晷群像",
+          visualPrompt: "大量中国古代日晷整齐延伸至画面尽头，长影形成秩序化抽象图案，冷白地面与金色斜光，宏观俯瞰，天人合一的哲学意象。",
+          motionPrompt: "摄影机持续升高并向后拉远，从单个日晷揭示成规模群体，阴影缓慢移动，构图中心保持稳定。",
+          control: "保持日晷朝向和排列规律，禁止随机增生与重叠，避免阴影方向不一致和地面纹理抖动。",
+        },
+      ],
+      storyboard: {
+        title: "《寰宇极曦》20 镜分镜表",
+        summary: "全片约 101 秒，分镜记录画面、景别、时长、内容、音效与运镜。前七镜完成从科学器物到文明群像的序章，后续镜头继续推进传统科学意象与现代视觉语言的融合。",
+        document: "portfolio/animation/huanyu-jixi/huanyu-jixi-storyboard.pdf",
+        images: huanyuStoryboardImages,
+      },
     },
   ),
   createWork(
     20,
     "animation",
-    "三维场景构建",
-    "3D Scene Building",
-    ["3D", "Environment", "Animation"],
-    "围绕三维场景、建筑结构与空间叙事展开，体现建模、构图和场景氛围控制能力。",
+    "衔泥寻木 AIGC 建筑动画",
+    "Xianni Xunmu AIGC Architecture Film",
+    ["AIGC Animation", "Architecture", "Clay Style"],
+    "以两只北归燕子的迁徙为线索，用五幕结构串联福建土楼、江南园林、赵州桥、悬空寺、应县木塔、长城与紫禁城，在宏大建筑和微小生命的对照中讲述归宿与空间。",
     {
-      role: "三维设计 / 场景构建",
-      highlights: ["3D 场景", "空间叙事", "视觉氛围"],
-      responsibilities: ["建立三维场景结构", "控制空间透视与光影氛围", "输出适合动画展示的场景画面"],
+      year: "2026",
+      role: "叙事分镜 / AIGC 场景生成 / 图生视频与剪辑",
+      images: [imageForPage(20), imageForPage(21)],
+      highlights: ["五幕建筑叙事", "粘土定格风格", "Seedance 动态生成"],
+      responsibilities: ["研究不同建筑的结构识别点并拆解为五幕镜头脚本", "在 Lovart 中建立粘土定格材质、燕子角色和建筑比例的一致性规范", "使用 Seedance 系列模型实现飞行跟随、FPV 穿越、贴水横移和航拍推进等复杂运镜"],
+      aigcWorkflow: [
+        {
+          title: "建筑研究与五幕叙事",
+          tools: "Architecture Research / Story Structure",
+          detail: "以聚与圆、水与木、力学奇迹、尺度与脊梁、序与归为五幕主题，提取土楼圆形天井、马头墙、敞肩拱、斗拱和中轴线等建筑识别点。",
+        },
+        {
+          title: "Lovart 风格与资产开发",
+          tools: "Lovart / Clay Style Board / Character Reference",
+          detail: "建立粘土定格材质、燕子角色比例、云层和植被的视觉规范；在多模型画布中对建筑构图进行方案比较，兼顾结构准确性与风格化表达。",
+        },
+        {
+          title: "镜头级提示词工程",
+          tools: "Visual Prompt / Camera Prompt / Negative Constraints",
+          detail: "每个镜头分开描述主体、建筑、天气、景别、镜头运动和禁止项，把画面生成与动态生成拆成可迭代的参数模块。",
+        },
+        {
+          title: "Seedance 图生视频",
+          tools: "Seedance Series / Image-to-Video / Reference Frame",
+          detail: "以关键帧为视觉条件生成燕子飞行和建筑穿越镜头，重点测试 FPV、贴水跟随、垂直拉升与航拍中轴推进的空间连续性。",
+        },
+        {
+          title: "连续性修复与成片",
+          tools: "After Effects / Premiere Pro / Sound Design",
+          detail: "筛选动作连贯版本，修复燕子形态、建筑边缘和光线跳变，通过剪辑节奏、环境音和转场把不同地域场景组织为完整旅程。",
+        },
+      ],
+      promptExamples: [
+        {
+          shot: "Sc1-02 · 6s",
+          title: "屋檐燕巢",
+          visualPrompt: "极度特写，福建土楼高层粗壮榫卯木梁交接处，泥巴与枯草燕巢卡在缝隙，一只刚破壳的黑色雏燕探头，粘土定格动画质感，初春暖色晨光，木纹清晰。",
+          motionPrompt: "固定微距镜头，浅景深，雏燕轻微抬头和呼吸，背景保持柔和虚化，动作克制自然。",
+          control: "锁定燕巢位置、雏燕数量和木梁结构，不出现现代材料，避免羽毛闪烁、木纹爬动和角色突然变形。",
+        },
+        {
+          shot: "Sc1-03 · 12s",
+          title: "冲破天际",
+          visualPrompt: "两只燕子飞入福建土楼巨大的圆形内部空间，木柱与红灯笼形成环形纵深，顶部屋檐框住圆形蓝天，粘土定格风格，晨光逐渐增强。",
+          motionPrompt: "FPV 穿越机视角高速跟随燕子，穿过灯笼和木柱后急速上摇，最终冲向圆形天空并以强光转场。",
+          control: "保持两只燕子全程可辨识，锁定土楼圆形结构和飞行方向，避免碰撞穿模、额外鸟群和镜头无规律旋转。",
+        },
+        {
+          shot: "Sc3-01 · 10s",
+          title: "风雨孤桥",
+          visualPrompt: "暴雨中的赵州桥远景，乌云冷蓝灰黑，江水翻涌如巨龙，两只燕子逆风飞行，单孔石桥和敞肩小拱结构清晰，粘土定格电影质感。",
+          motionPrompt: "摄影机在燕子侧方平行跟随，加入轻微受控震动表现狂风，水流持续向前，远处石桥缓慢接近。",
+          control: "保持赵州桥结构准确，不改变桥孔数量，燕子不消失，禁止桥体软化、水面穿透和随机闪电遮挡主体。",
+        },
+        {
+          shot: "Sc5-01 · 12s",
+          title: "皇家秩序",
+          visualPrompt: "晨曦金光照亮紫禁城红墙黄瓦，两只燕子沿笔直中轴线飞行，下方宫殿群与广场极度对称，宏大航拍大全景，粘土定格建筑模型质感。",
+          motionPrompt: "航拍镜头沿中轴线庄重缓慢推进，燕子保持前方引导位置，云层和阳光变化平稳，空间尺度逐渐展开。",
+          control: "锁定中轴对称和宫殿排列，不新增现代城市元素，避免屋顶扭曲、燕子数量变化和镜头横向漂移。",
+        },
+      ],
+      storyboard: {
+        title: "《衔泥寻木》五幕建筑意象分镜表",
+        summary: "分镜以燕子迁徙串联七类中国传统建筑意象，记录每镜时长、视觉提示词和摄影机运动，为 Lovart 关键帧开发与 Seedance 动态生成提供镜头级输入。",
+        document: "portfolio/animation/xianni-xunmu/xianni-xunmu-storyboard.pdf",
+        images: xianniStoryboardImages,
+      },
     },
   ),
   createWork(
