@@ -76,6 +76,10 @@ const productDesignBoardImages = [
   "portfolio/product-design/product-design-board-02.jpg",
 ];
 const productDesignCreativeRender = "portfolio/product-design/product-design-creative-render-01.jpg";
+const aigcConceptSupplementImages = Array.from(
+  { length: 4 },
+  (_, index) => `portfolio/animation/aigc-concept-supplement/aigc-concept-page-${String(index + 1).padStart(2, "0")}.webp`,
+);
 const huanyuStoryboardImages = Array.from(
   { length: 5 },
   (_, index) => `portfolio/animation/huanyu-jixi/storyboard/huanyu-jixi-storyboard-${String(index + 1).padStart(2, "0")}.webp`,
@@ -92,7 +96,7 @@ const categoryMeta: Record<PortfolioCategoryId, Pick<PortfolioCategory, "partLab
   },
   animation: {
     partLabel: "Part 2",
-    categorySubtitle: "Animation / 二维三维动画",
+    categorySubtitle: "AIGC Concept Animation / AIGC 概念动画创意",
   },
   video: {
     partLabel: "Part 3",
@@ -149,9 +153,9 @@ export const portfolioCategories: PortfolioCategory[] = [
   },
   {
     id: "animation",
-    titleEN: "Animation",
-    titleCN: "二维三维动画方向",
-    intro: "聚焦 AIGC 动画制作、概念设定、分镜拆解与动态影像实验，展示从叙事设计、提示词工程到关键帧一致性和图生视频后期的完整工作流。",
+    titleEN: "AIGC Concept Animation",
+    titleCN: "AIGC 概念动画创意",
+    intro: "聚焦 AIGC 驱动的动画概念开发、角色与场景设定、分镜拆解及动态影像实验，呈现从视觉构思、生成迭代到镜头一致性和后期整合的完整创作能力。",
     ...categoryMeta.animation,
   },
   {
@@ -316,6 +320,138 @@ export const portfolioItems: PortfolioItem[] = [
       images: [productDesignCreativeRender],
       highlights: ["创意渲染", "产品氛围", "AIGC 输出"],
       responsibilities: ["提炼不同产品方向的视觉关键词", "完成产品渲染画面与场景氛围输出", "整理可用于作品展示的创意视觉合集"],
+    },
+  ),
+  createWork(
+    33,
+    "animation",
+    "AIGC 次世代概念设计《余烬之后》",
+    "After the Embers",
+    ["AIGC Concept Art", "Environment Design", "Visual Development"],
+    "围绕末日灾后世界观进行场景视觉开发，包含幸存者营地、废弃住宅区、港口聚落与怪物危机场景。创作中先以手绘完成构图参考，再利用 AI 生成工具完成写实场景搭建与氛围探索，并通过光影控制、空间层次和镜头化构图强化画面叙事感。",
+    {
+      year: "2026",
+      role: "AIGC 概念设计 / 场景视觉开发 / 镜头氛围设计",
+      coverImage: aigcConceptSupplementImages[0],
+      images: [aigcConceptSupplementImages[0]],
+      highlights: ["末日世界观", "写实场景开发", "镜头化构图"],
+      responsibilities: ["以手绘草图建立场景构图与视觉重点", "使用 AI 生成工具搭建营地、住宅区、港口与危机场景", "统一光影、空间层次和末日氛围，形成可用于动态漫与短片前期的视觉设定"],
+      aigcWorkflow: [
+        {
+          title: "世界观与构图草案",
+          tools: "Worldbuilding / Hand-drawn Layout",
+          detail: "围绕灾后生存主题拆分营地、聚落、废墟和怪物危机等叙事节点，以手绘形式确定主体位置、空间关系与镜头视线。",
+        },
+        {
+          title: "写实场景生成",
+          tools: "AI Image Generation / Reference Control",
+          detail: "依据构图草案生成不同环境方案，重点迭代建筑破损、生活痕迹、人物尺度和危险物体之间的叙事关系。",
+        },
+        {
+          title: "氛围与连续性统一",
+          tools: "Lighting / Color / Shot Design",
+          detail: "通过冷暖光线、雾气、纵深和镜头景别统一场景风格，使多张概念图能够服务于连续的影视美术与动画前期开发。",
+        },
+      ],
+    },
+  ),
+  createWork(
+    34,
+    "animation",
+    "AIGC 国风叙事概念设计",
+    "Chinese-style Narrative Concept Design",
+    ["AIGC Concept Art", "Chinese Aesthetics", "Narrative Design"],
+    "以传统服饰、古建空间、神话生物与山水意象构建国风叙事场景，通过暖金、朱红、雾蓝与水墨灰组织不同情绪段落，探索角色、环境和镜头氛围之间的关系，为动画短片、动态漫与影视前期视觉开发建立风格方向。",
+    {
+      year: "2026",
+      role: "AIGC 场景概念 / 国风视觉开发 / 叙事氛围设计",
+      coverImage: aigcConceptSupplementImages[1],
+      images: [aigcConceptSupplementImages[1]],
+      highlights: ["国风叙事", "神话意象", "场景氛围"],
+      responsibilities: ["提炼人物、古建、山水与神话生物等核心视觉元素", "生成并筛选不同色彩与空间情绪的叙事场景", "统一角色气质、画面风格和镜头氛围，为后续分镜延展建立视觉参考"],
+      aigcWorkflow: [
+        {
+          title: "国风视觉母题",
+          tools: "Visual Research / Style Board",
+          detail: "从古典服饰、楼阁、灯笼、云雾山水和神话生物中提炼视觉母题，明确传统意象与幻想叙事的融合方向。",
+        },
+        {
+          title: "场景与色彩探索",
+          tools: "AI Image Generation / Color Direction",
+          detail: "并行生成暖金、朱红、雾蓝和水墨灰等不同色彩段落，比较人物尺度、空间层次与画面情绪。",
+        },
+        {
+          title: "叙事镜头整理",
+          tools: "Key Visual Selection / Sequence Design",
+          detail: "筛选具有明确角色关系和视线引导的关键画面，整理为可继续发展分镜、动态漫或概念短片的视觉序列。",
+        },
+      ],
+    },
+  ),
+  createWork(
+    35,
+    "animation",
+    "AIGC 二次元角色设计《绮露》",
+    "Qilu Anime Character Design",
+    ["AIGC Character Design", "Anime", "Visual Development"],
+    "围绕二次元幻想角色完成主形象、武器、表情与配饰设定，通过 AI 绘画工具进行角色生成与迭代优化，重点强化造型识别度、色彩统一性与细节完成度。该设计可服务于动画、动态漫及游戏项目中的角色视觉开发与分镜延展。",
+    {
+      year: "2026",
+      role: "AIGC 角色设定 / 造型设计 / 视觉整合",
+      coverImage: aigcConceptSupplementImages[2],
+      images: [aigcConceptSupplementImages[2]],
+      highlights: ["角色主形象", "武器与配饰", "表情设定"],
+      responsibilities: ["建立角色轮廓、服装层次和紫粉色彩体系", "迭代主形象、武器、表情与配饰细节", "整理角色设定版面，为动画、动态漫和游戏分镜延展提供统一参考"],
+      aigcWorkflow: [
+        {
+          title: "角色方向设定",
+          tools: "Character Brief / Silhouette Design",
+          detail: "确定幻想角色的年龄感、气质、轮廓与紫粉色彩体系，并以服装层次和发型结构建立识别点。",
+        },
+        {
+          title: "生成与迭代优化",
+          tools: "AI Painting / Reference Iteration",
+          detail: "围绕主形象持续调整面部、服装、材质和比例，筛选造型稳定且细节完成度较高的角色方案。",
+        },
+        {
+          title: "设定资产延展",
+          tools: "Expression / Weapon / Accessory Design",
+          detail: "将角色主形象延展至法杖、表情和配饰设定，统一图形语言与配色，为后续动作分镜和角色表演提供依据。",
+        },
+      ],
+    },
+  ),
+  createWork(
+    36,
+    "animation",
+    "AIGC 二维场景概念设计《旅途四季》",
+    "Journey Through Four Seasons",
+    ["AIGC Environment Design", "2D Animation", "Shot Design"],
+    "视觉强调清晰的动画轮廓、柔和的色彩层次与具有导向性的场景结构。通过足迹、道路、田埂、光带与角色视线组织观众视线，形成明确的镜头推进逻辑，体现对二维动画美术风格、场景调度、镜头语言和 AIGC 动漫制作流程的综合把控。",
+    {
+      year: "2026",
+      role: "AIGC 场景概念 / 二维动画美术 / 镜头设计",
+      coverImage: aigcConceptSupplementImages[3],
+      images: [aigcConceptSupplementImages[3]],
+      highlights: ["四季场景", "二维动画美术", "视线引导"],
+      responsibilities: ["设计梯田、森林、荒漠与雪境四类旅途场景", "通过道路、足迹、光带与角色视线组织画面动线", "统一动画轮廓和柔和色彩层次，为短片镜头推进与场景调度提供概念依据"],
+      aigcWorkflow: [
+        {
+          title: "四季场景规划",
+          tools: "Environment Brief / Visual Sequence",
+          detail: "将旅途拆分为梯田、森林、荒漠和雪境四个环境段落，明确每一场景的角色位置、行进方向和情绪温度。",
+        },
+        {
+          title: "二维风格生成",
+          tools: "AI Image Generation / 2D Style Control",
+          detail: "以清晰轮廓、柔和色彩和动画化空间为统一标准，迭代不同季节的植被、天气、地貌与光线表现。",
+        },
+        {
+          title: "镜头动线强化",
+          tools: "Composition / Eye-flow / Camera Planning",
+          detail: "利用足迹、道路、田埂、光带和人物视线建立画面导向，使静态概念图具备明确的镜头推进逻辑和后续动态延展空间。",
+        },
+      ],
     },
   ),
   createWork(

@@ -110,10 +110,10 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                 <section className="mt-14 border-t border-sky-200 pt-10">
                   <Reveal>
                     <div className="max-w-3xl">
-                      <p className="text-sm font-semibold uppercase text-portfolioBlue">AIGC Production Pipeline</p>
-                      <h3 className="mt-3 text-3xl font-black text-inkBlue">生成式动画制作流程</h3>
+                      <p className="text-sm font-semibold uppercase text-portfolioBlue">AIGC Creative Pipeline</p>
+                      <h3 className="mt-3 text-3xl font-black text-inkBlue">AIGC 创作流程</h3>
                       <p className="mt-4 text-sm leading-7 text-slate-600">
-                        以分镜和关键帧为核心控制层，将生成模型用于视觉探索与动态执行，并通过人工筛选、修复和后期确保叙事与镜头连续性。
+                        以视觉设定、构图和关键帧为核心控制层，将生成模型用于概念探索与动态执行，并通过人工筛选、修复和后期确保风格与叙事连续性。
                       </p>
                     </div>
                   </Reveal>
