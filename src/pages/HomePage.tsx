@@ -110,7 +110,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <SiteNav theme="dark" />
-      <section className="relative min-h-screen overflow-hidden bg-[#08a9f4] px-6 pb-12 pt-28 text-white sm:px-10 lg:px-20">
+      <section className="relative min-h-dvh overflow-hidden bg-[#08a9f4] px-6 pb-12 pt-28 text-white sm:px-10 lg:px-20">
         <motion.div className="absolute inset-[-4%] bg-[radial-gradient(circle_at_68%_16%,rgba(255,255,255,0.34),transparent_15%),radial-gradient(circle_at_17%_70%,rgba(255,255,255,0.14),transparent_22%),linear-gradient(132deg,#09aaf4_0%,#13b8ff_46%,#049ce9_100%)]" animate={{ scale: [1, 1.025, 1], x: [0, 12, 0], y: [0, -8, 0] }} transition={{ duration: 16, repeat: Infinity, ease }} />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_0%,rgba(255,255,255,.13)_44%,transparent_60%)] opacity-70" />
         <div className="absolute left-0 top-0 z-20 w-max whitespace-nowrap text-[12px] font-medium leading-none text-white/70 sm:text-sm">PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO</div>
@@ -120,23 +120,23 @@ export default function HomePage() {
         <Bird className="right-[12vw] top-[32vh] scale-90" delay={0.94} />
 
         <div className="relative z-30 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl content-between gap-12">
-          <motion.div initial={{ opacity: 0, y: 30, filter: "blur(14px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 1.25, ease }} className="max-w-4xl">
-            <p className="mb-5 text-sm font-semibold uppercase text-sky-50/80">Graphic Design / Animation / Video / AIGC Creative Practice</p>
-            <h1 className="flex flex-col text-[clamp(4.6rem,11vw,11rem)] font-black leading-[.76] tracking-normal drop-shadow-[0_18px_42px_rgba(0,93,170,.1)]">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, ease }} className="max-w-4xl">
+            <p className="mb-5 max-w-2xl text-sm font-semibold uppercase leading-6 text-sky-50/80">Graphic Design / Animation / Video / AIGC Creative Practice</p>
+            <h1 className="flex flex-col text-balance text-[clamp(3.7rem,11vw,11rem)] font-black leading-[.78] tracking-normal drop-shadow-[0_18px_42px_rgba(0,93,170,.1)]">
               <span>PORTFOLIO</span>
               <span className="text-[.78em]">2026</span>
             </h1>
             <p className="mt-7 text-[clamp(1.7rem,4vw,4.5rem)] font-light leading-none text-white/94">林洪乐个人作品集</p>
-            <p className="mt-6 max-w-xl text-base font-light leading-8 text-sky-50/78">平面设计、手绘、动画、视频与编剧分镜，多媒介创作从一根线展开。</p>
+            <p className="mt-6 max-w-xl text-pretty text-base font-light leading-8 text-sky-50/78">平面设计、手绘、动画、视频与编剧分镜，多媒介创作从一根线展开。</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <button type="button" onClick={scrollToSelected} data-glow="true" className="rounded-full border border-white/65 bg-white/16 px-6 py-3 text-sm font-semibold shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white/24">View Works / 查看作品</button>
-              <a href="mailto:lhl20040919@gmail.com" data-glow="true" className="rounded-full border border-white/30 px-6 py-3 text-sm text-white/82 transition duration-500 ease-apple hover:scale-[1.03] hover:border-white/65 hover:text-white">Contact / 联系我</a>
+              <button type="button" onClick={scrollToSelected} data-glow="true" className="rounded-full border border-white/65 bg-white/16 px-6 py-3 text-sm font-semibold shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white/24 focus-visible:outline-white">View Works / 查看作品</button>
+              <a href="mailto:lhl20040919@gmail.com" data-glow="true" className="rounded-full border border-white/30 px-6 py-3 text-sm text-white/82 transition duration-500 ease-apple hover:scale-[1.03] hover:border-white/65 hover:text-white focus-visible:outline-white">Contact / 联系我</a>
             </div>
           </motion.div>
 
-          <div className="relative z-40 grid gap-4 md:grid-cols-4">
+          <div className="relative z-40 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
             {categoryLinks.map(({ category, firstItem }, index) => (
-              <motion.a key={category.id} href={"#/category/" + category.id} data-glow="true" className="group rounded-[10px] border border-white/30 bg-white/16 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_18px_48px_rgba(0,95,170,.12)] backdrop-blur-2xl transition duration-700 ease-apple hover:-translate-y-1 hover:scale-[1.02] hover:bg-white/22" initial={{ opacity: 0, y: 24, filter: "blur(10px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.9, delay: 0.78 + index * 0.1, ease }}>
+              <motion.a key={category.id} href={"#/category/" + category.id} data-glow="true" className="group rounded-[10px] border border-white/30 bg-white/16 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_18px_48px_rgba(0,95,170,.12)] backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-1 hover:scale-[1.018] hover:bg-white/22 focus-visible:outline-white" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.82, delay: 0.78 + index * 0.1, ease }}>
                 <p className="text-xs font-semibold uppercase text-sky-50/65">{category.partLabel}</p>
                 <h2 className="mt-4 text-lg font-semibold">{category.titleEN}</h2>
                 <p className="mt-2 text-sm font-light text-white/72">{category.titleCN}</p>

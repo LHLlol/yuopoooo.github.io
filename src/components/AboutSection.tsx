@@ -12,8 +12,8 @@ export default function AboutSection() {
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold uppercase text-portfolioBlue">About Me</p>
-            <h2 className="mt-4 text-[clamp(2.5rem,5.5vw,5.8rem)] font-black leading-[0.92] text-inkBlue">关于我</h2>
-            <p className="mt-6 text-base leading-8 text-slate-600">{profileData.summary}</p>
+            <h2 className="mt-4 text-balance text-[clamp(2.5rem,5.5vw,5.8rem)] font-black leading-[0.92] text-inkBlue">关于我</h2>
+            <p className="mx-auto mt-6 max-w-[68ch] text-pretty text-base leading-8 text-slate-600">{profileData.summary}</p>
           </div>
         </Reveal>
 

@@ -32,7 +32,7 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
     <div
       ref={ref}
       className={`${className} transition-all duration-1000 ease-apple ${
-        visible ? "translate-y-0 scale-100 opacity-100 blur-none" : "translate-y-8 scale-[.985] opacity-0 blur-md"
+        visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-7 scale-[.99] opacity-0"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >

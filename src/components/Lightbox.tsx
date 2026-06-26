@@ -51,8 +51,12 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
         </div>
         <button
           type="button"
-          onClick={onClose}
-          className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm backdrop-blur-xl transition duration-500 ease-apple hover:scale-[1.03] hover:bg-white/18"
+          onClick={(event) => {
+            event.stopPropagation();
+            onClose();
+          }}
+          className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm backdrop-blur-xl transition duration-500 ease-apple hover:scale-[1.03] hover:bg-white/18 focus-visible:outline-white"
+          aria-label="关闭预览"
         >
           Close / 关闭
         </button>
@@ -66,7 +70,7 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
             onChange(Math.max(activeIndex - 1, 0));
           }}
           disabled={activeIndex === 0}
-          className="h-11 w-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 disabled:opacity-25"
+          className="size-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 focus-visible:outline-white disabled:pointer-events-none disabled:opacity-25"
           aria-label="上一张"
         >
           ‹
@@ -95,7 +99,7 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
             onChange(Math.min(activeIndex + 1, images.length - 1));
           }}
           disabled={activeIndex === images.length - 1}
-          className="h-11 w-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 disabled:opacity-25"
+          className="size-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 focus-visible:outline-white disabled:pointer-events-none disabled:opacity-25"
           aria-label="下一张"
         >
           ›

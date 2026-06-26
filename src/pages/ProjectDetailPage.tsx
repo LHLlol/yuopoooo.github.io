@@ -45,7 +45,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
             <aside>
               <div className="sticky top-28">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">{item.partLabel} · {item.categorySubtitle}</p>
-                <h1 className="mt-4 text-[clamp(2.4rem,4.8vw,4.8rem)] font-black leading-[0.95] text-inkBlue">
+                <h1 className="mt-4 text-balance text-[clamp(2.4rem,4.8vw,4.8rem)] font-black leading-[0.95] text-inkBlue">
                   {item.titleCN}
                 </h1>
                 <h2 className="mt-5 text-2xl font-light text-slate-700">{item.titleEN}</h2>
@@ -89,7 +89,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                 <Reveal>
                   <div>
                     <p className="text-sm font-semibold uppercase text-portfolioBlue">Project Note</p>
-                    <p className="mt-4 text-base leading-8 text-slate-600">{item.description}</p>
+                    <p className="mt-4 max-w-[68ch] text-pretty text-base leading-8 text-slate-600">{item.description}</p>
                   </div>
                 </Reveal>
                 <Reveal delay={120}>

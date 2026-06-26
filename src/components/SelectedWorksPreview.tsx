@@ -35,11 +35,11 @@ export default function SelectedWorksPreview() {
         <motion.div style={{ y: titleY }} className="lg:sticky lg:top-28 lg:h-fit">
           <Reveal>
             <p className="text-sm font-semibold uppercase text-portfolioBlue">Selected Works Preview</p>
-            <h2 className="mt-4 text-[clamp(2.5rem,5vw,5.7rem)] font-black leading-[0.92] text-inkBlue">精选作品预览</h2>
-            <p className="mt-6 text-base leading-8 text-slate-600">
+            <h2 className="mt-4 text-balance text-[clamp(2.5rem,5vw,5.7rem)] font-black leading-[0.92] text-inkBlue">精选作品预览</h2>
+            <p className="mt-6 max-w-[64ch] text-pretty text-base leading-8 text-slate-600">
               聚合平面设计、手绘表达、动画影像与 AIGC 创意实践中的代表作品，展示从概念生成到视觉落地的综合创作能力。
             </p>
-            <a href="#/category/handdrawn-graphic" className="mt-8 inline-flex rounded-full border border-sky-200 bg-white/76 px-5 py-2 text-sm font-semibold text-inkBlue shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:border-portfolioBlue">
+            <a href="#/category/handdrawn-graphic" className="mt-8 inline-flex rounded-full border border-sky-200 bg-white/76 px-5 py-2 text-sm font-semibold text-inkBlue shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:border-portfolioBlue focus-visible:outline-portfolioBlue">
               Explore Works / 浏览作品
             </a>
           </Reveal>

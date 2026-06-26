@@ -53,11 +53,11 @@ export default function CategoryPage({ categoryId }: CategoryPageProps) {
       <section className="px-5 pb-10 pt-32 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl border-b border-sky-200 pb-12 text-center">
           <p className="text-sm font-semibold uppercase text-portfolioBlue">{category.partLabel} · {category.categorySubtitle}</p>
-          <h1 className="mx-auto mt-5 max-w-5xl text-[clamp(2.7rem,6vw,6.4rem)] font-black leading-[0.9] tracking-normal text-inkBlue">
+          <h1 className="mx-auto mt-5 max-w-5xl text-balance text-[clamp(2.7rem,6vw,6.4rem)] font-black leading-[0.9] tracking-normal text-inkBlue">
             {category.titleEN}
           </h1>
           <h2 className="mt-6 text-2xl font-light text-slate-700">{category.titleCN}</h2>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600">{category.intro}</p>
+          <p className="mx-auto mt-6 max-w-3xl text-pretty text-base leading-8 text-slate-600">{category.intro}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {portfolioCategories.map((item) => (
               <a
