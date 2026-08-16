@@ -71,12 +71,12 @@ export default function SelectedWorksPreview() {
         />
       )}
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[360px_1fr]">
-        <motion.div style={{ y: titleY }} className="lg:sticky lg:top-28 lg:h-fit">
+      <div className="relative mx-auto grid max-w-7xl min-w-0 gap-12 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]">
+        <motion.div style={{ y: titleY }} className="selected-works-intro min-w-0 lg:sticky lg:top-28 lg:h-fit">
           <Reveal>
             <p className="text-sm font-semibold uppercase text-portfolioBlue">Selected Works Preview</p>
             <h2 className="selected-works-heading mt-4 text-balance text-[clamp(2.25rem,4vw,4.8rem)] font-black leading-[0.96] text-inkBlue">精选作品预览</h2>
-            <p className="mt-6 max-w-[64ch] text-pretty text-base leading-8 text-slate-600">
+            <p className="selected-works-copy mt-6 max-w-[64ch] text-pretty text-base leading-8 text-slate-600">
               聚合平面设计、手绘表达、动画影像与 AIGC 创意实践中的代表作品，展示从概念生成到视觉落地的综合创作能力。
             </p>
             <a href="#/category/handdrawn-graphic" className="ambient-action mt-8 inline-flex rounded-full border border-sky-200 bg-white/76 px-5 py-2 text-sm font-semibold text-inkBlue shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:border-portfolioBlue focus-visible:outline-portfolioBlue">
@@ -85,7 +85,7 @@ export default function SelectedWorksPreview() {
           </Reveal>
         </motion.div>
 
-        <Reveal>
+        <Reveal className="selected-works-deck-shell min-w-0">
           <CardDeck
             items={featured}
             variant="project"

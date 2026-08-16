@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import CursorGlow from "./components/CursorGlow";
 import OpeningTransition from "./components/OpeningTransition";
+import PortfolioAI from "./components/PortfolioAI";
 import { getCategoryById, getPortfolioItemById, type PortfolioCategoryId } from "./data/portfolioData";
 import HomePage from "./pages/HomePage";
 import CategoryPage from "./pages/CategoryPage";
@@ -60,6 +61,7 @@ export default function App() {
     <>
       <OpeningTransition />
       <CursorGlow />
+      <PortfolioAI />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={routeKey}

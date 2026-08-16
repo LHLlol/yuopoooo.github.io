@@ -374,6 +374,91 @@ body.opening-leaving .home-hero-content {
   transition: transform 180ms ease-out, color 180ms ease-out;
 }
 
+.portfolio-ai-edge-glow {
+  overflow: hidden;
+  opacity: 0.72;
+}
+
+.portfolio-ai-trigger,
+.portfolio-ai-hint,
+.portfolio-ai-panel {
+  text-shadow: 0 1px 2px rgba(1, 12, 31, 0.58), 0 5px 14px rgba(0, 15, 42, 0.22);
+}
+
+.portfolio-ai-hint {
+  background: rgba(7, 94, 172, 0.94);
+  color: rgba(239, 249, 255, 0.96);
+}
+
+.portfolio-ai-panel textarea {
+  text-shadow: 0 1px 2px rgba(1, 12, 31, 0.5);
+}
+
+.portfolio-ai-edge-glow::before {
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  border-radius: 1.5rem;
+  background: linear-gradient(120deg, rgba(96, 165, 250, 0.08), rgba(216, 180, 254, 0.22), rgba(34, 211, 238, 0.14), rgba(96, 165, 250, 0.08)) border-box;
+  content: "";
+  filter: blur(10px);
+  mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.72;
+  transform: scale(1.015);
+  animation: portfolio-ai-edge-flow 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes portfolio-ai-edge-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.portfolio-ai-thinking-dots i {
+  display: block;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: rgba(191, 232, 255, 0.65);
+  filter: blur(1px);
+  animation: portfolio-ai-thinking 1.5s ease-in-out infinite;
+}
+
+.portfolio-ai-thinking-dots i:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+.portfolio-ai-thinking-dots i:nth-child(3) {
+  animation-delay: 360ms;
+}
+
+@keyframes portfolio-ai-thinking {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.78);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-ai-edge-glow::before,
+  .portfolio-ai-thinking-dots i {
+    animation: none;
+  }
+}
+
 .site-nav-link::after {
   position: absolute;
   right: 0.1rem;
@@ -612,6 +697,31 @@ body.opening-leaving .home-hero-content {
   will-change: transform, opacity;
 }
 
+.about-details-grid > *,
+.about-details-stack > .reveal-shell,
+.selected-works-intro,
+.selected-works-deck-shell {
+  min-width: 0;
+}
+
+.about-details-stack .content-block,
+.about-details-stack .card-deck,
+.selected-works-deck-shell .card-deck {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.selected-works-copy {
+  max-width: min(100%, 64ch);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1024px) {
+  .selected-works-deck-shell {
+    overflow: hidden;
+  }
+}
+
 .card-deck {
   --deck-drag-x: 0px;
   --deck-drag-rotate: 0deg;
@@ -836,7 +946,7 @@ body.opening-leaving .home-hero-content {
 }
 
 .card-deck--text {
-  --deck-stage-height: clamp(20rem, 28vw, 25rem);
+  --deck-stage-height: clamp(22rem, 31vw, 28rem);
 }
 
 .card-deck-project-card,
@@ -885,7 +995,7 @@ body.opening-leaving .home-hero-content {
 .card-deck-text-card--media .card-deck__text-layer {
   position: relative;
   z-index: 1;
-  padding-right: clamp(8rem, 16vw, 12rem);
+  padding-right: clamp(12rem, 25vw, 17rem);
 }
 
 .card-deck-text-card__media {
@@ -893,8 +1003,8 @@ body.opening-leaving .home-hero-content {
   right: clamp(1rem, 2.5vw, 2.2rem);
   bottom: clamp(1rem, 2.5vw, 2rem);
   z-index: 0;
-  width: clamp(7rem, 16vw, 11rem);
-  height: clamp(4.5rem, 9vw, 7rem);
+  width: clamp(10rem, 22vw, 15rem);
+  height: clamp(6.5rem, 12vw, 9rem);
   overflow: hidden;
   border: 1px solid rgba(var(--portfolio-blue-rgb), 0.16);
   border-radius: 0.8rem;
@@ -931,6 +1041,17 @@ body.opening-leaving .home-hero-content {
   }
 }
 
+/* Keep the hero's pole illustration compact in tall portrait viewports. */
+@media (min-width: 768px) and (max-aspect-ratio: 4 / 5) {
+  .hero-pole {
+    display: none !important;
+  }
+
+  .home-hero-copy {
+    max-width: min(100%, 42rem);
+  }
+}
+
 @media (max-width: 767px) {
   .home-hero-copy {
     max-width: 100%;
@@ -941,14 +1062,14 @@ body.opening-leaving .home-hero-content {
   }
 
   .card-deck-text-card--media .card-deck__text-layer {
-    padding-right: 7.5rem;
+    padding-right: 9.5rem;
   }
 
   .card-deck-text-card__media {
     right: 1rem;
     bottom: 1rem;
-    width: 6.25rem;
-    height: 4.25rem;
+    width: 8rem;
+    height: 5.5rem;
   }
 }
 

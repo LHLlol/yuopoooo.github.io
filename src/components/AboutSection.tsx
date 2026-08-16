@@ -30,7 +30,7 @@ export default function AboutSection() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid items-start gap-10 lg:grid-cols-[390px_1fr]">
+        <div className="about-details-grid mt-14 grid items-start gap-10 lg:grid-cols-[minmax(0,390px)_minmax(0,1fr)]">
           <Reveal>
             <aside className="content-block profile-surface overflow-hidden rounded-[18px] border border-white/70 bg-white/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.7),0_30px_90px_rgba(0,113,190,.12)] backdrop-blur-2xl">
               <div className="profile-avatar-surface mx-auto w-[112px] max-w-none overflow-hidden rounded-[14px] border border-sky-100 bg-white shadow-[0_22px_70px_rgba(0,94,170,.12)] sm:w-[148px] lg:w-[172px]">
@@ -51,7 +51,7 @@ export default function AboutSection() {
             </aside>
           </Reveal>
 
-          <div className="grid gap-6">
+          <div className="about-details-stack grid min-w-0 gap-6">
             <Reveal delay={staggerDelay(1)}>
               <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Education</p>
