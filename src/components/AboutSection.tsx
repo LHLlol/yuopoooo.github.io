@@ -1,6 +1,19 @@
-import Reveal from "./Reveal";
+import CardDeck from "./CardDeck";
+import Reveal, { staggerDelay } from "./Reveal";
 import { profileData } from "../data/profileData";
 import { assetPath } from "../utils/assetPath";
+
+const experienceMedia = [
+  "portfolio/product-design/product-design-board-01.jpg",
+  "portfolio/page-23.webp",
+  "portfolio/page-04.webp",
+];
+
+const highlightMedia = [
+  "portfolio/page-17.webp",
+  "portfolio/page-14.webp",
+  "portfolio/product-design/product-design-board-02.jpg",
+];
 
 export default function AboutSection() {
   return (
@@ -19,8 +32,8 @@ export default function AboutSection() {
 
         <div className="mt-14 grid items-start gap-10 lg:grid-cols-[390px_1fr]">
           <Reveal>
-            <aside className="overflow-hidden rounded-[18px] border border-white/70 bg-white/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.7),0_30px_90px_rgba(0,113,190,.12)] backdrop-blur-2xl">
-              <div className="overflow-hidden rounded-[14px] border border-sky-100 bg-white shadow-[0_22px_70px_rgba(0,94,170,.12)]">
+            <aside className="content-block profile-surface overflow-hidden rounded-[18px] border border-white/70 bg-white/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.7),0_30px_90px_rgba(0,113,190,.12)] backdrop-blur-2xl">
+              <div className="profile-avatar-surface mx-auto w-[112px] max-w-none overflow-hidden rounded-[14px] border border-sky-100 bg-white shadow-[0_22px_70px_rgba(0,94,170,.12)] sm:w-[148px] lg:w-[172px]">
                 <img src={assetPath(profileData.avatar)} alt={profileData.nameCN} className="aspect-[4/5] h-auto w-full object-cover object-top" loading="eager" />
               </div>
               <div className="px-2 pb-3 pt-6">
@@ -39,8 +52,8 @@ export default function AboutSection() {
           </Reveal>
 
           <div className="grid gap-6">
-            <Reveal delay={80}>
-              <div className="rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+            <Reveal delay={staggerDelay(1)}>
+              <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Education</p>
                 <div className="mt-4 flex flex-col gap-2 border-t border-sky-100 pt-5 sm:flex-row sm:items-end sm:justify-between">
                   <div>
@@ -52,9 +65,9 @@ export default function AboutSection() {
               </div>
             </Reveal>
 
-            <Reveal delay={150}>
+            <Reveal delay={staggerDelay(2)}>
               <div className="grid gap-6 md:grid-cols-2">
-                <div className="rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+                <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                   <p className="text-sm font-semibold uppercase text-portfolioBlue">Core Skills</p>
                   <div className="mt-5 grid gap-3">
                     {profileData.skills.map((skill) => (
@@ -62,7 +75,7 @@ export default function AboutSection() {
                     ))}
                   </div>
                 </div>
-                <div className="rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+                <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                   <p className="text-sm font-semibold uppercase text-portfolioBlue">Tools</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {profileData.software.map((tool) => (
@@ -78,34 +91,64 @@ export default function AboutSection() {
               </div>
             </Reveal>
 
-            <Reveal delay={220}>
-              <div className="rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+            <Reveal delay={staggerDelay(3)}>
+              <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Experience</p>
-                <div className="mt-6 grid gap-6">
-                  {profileData.experiences.map((experience) => (
-                    <article key={experience.title} className="border-t border-sky-100 pt-5 first:border-t-0 first:pt-0">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <h3 className="text-xl font-semibold text-slate-950">{experience.title}</h3>
-                          <p className="mt-1 text-sm text-slate-500">{experience.organization}</p>
-                        </div>
-                        <p className="text-sm text-slate-400">{experience.period}</p>
+                <CardDeck
+                  items={profileData.experiences}
+                  variant="text"
+                  ariaLabel="Experience 经历卡组"
+                  className="mt-6"
+                  renderCard={(experience, state) => (
+                    <article className="card-deck-text-card card-deck-text-card--media h-full">
+                      <div className="card-deck-text-card__media" aria-hidden="true">
+                        <img
+                          src={assetPath(experienceMedia[state.index] ?? experienceMedia[0])}
+                          alt=""
+                          loading={state.isActive ? "eager" : "lazy"}
+                        />
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{experience.description}</p>
+                      <div className="card-deck__text-layer flex h-full flex-col justify-between">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                          <div>
+                            <p className="text-xs font-semibold uppercase text-portfolioBlue">Professional Experience</p>
+                            <h3 className="mt-3 text-xl font-semibold text-slate-950 sm:text-2xl">{experience.title}</h3>
+                            <p className="mt-1 text-sm text-slate-500">{experience.organization}</p>
+                          </div>
+                          <p className="shrink-0 text-sm text-slate-400">{experience.period}</p>
+                        </div>
+                        <p className="mt-8 max-w-[68ch] text-sm leading-7 text-slate-600">{experience.description}</p>
+                      </div>
                     </article>
-                  ))}
-                </div>
+                  )}
+                />
               </div>
             </Reveal>
 
-            <Reveal delay={280}>
-              <div className="rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+            <Reveal delay={staggerDelay(4)}>
+              <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Highlights</p>
-                <div className="mt-5 grid gap-3">
-                  {profileData.achievements.map((item) => (
-                    <p key={item} className="rounded-xl bg-sky-50/80 px-4 py-3 text-sm leading-6 text-slate-700">{item}</p>
-                  ))}
-                </div>
+                <CardDeck
+                  items={profileData.achievements}
+                  variant="text"
+                  ariaLabel="Highlights 成就卡组"
+                  className="mt-5"
+                  renderCard={(item, state) => (
+                    <article className="card-deck-text-card card-deck-text-card--media h-full">
+                      <div className="card-deck-text-card__media" aria-hidden="true">
+                        <img
+                          src={assetPath(highlightMedia[state.index] ?? highlightMedia[0])}
+                          alt=""
+                          loading={state.isActive ? "eager" : "lazy"}
+                        />
+                      </div>
+                      <div className="card-deck__text-layer flex h-full flex-col justify-between">
+                        <p className="text-xs font-semibold uppercase text-portfolioBlue">Selected Highlight · {String(state.index + 1).padStart(2, "0")}</p>
+                        <p className="mt-8 text-base leading-8 text-slate-700">{item}</p>
+                      </div>
+                    </article>
+                  )}
+                />
                 <div className="mt-7 flex flex-wrap gap-3 border-t border-sky-100 pt-6 text-sm">
                   <a href={"mailto:" + profileData.email} className="rounded-full border border-portfolioBlue bg-portfolioBlue px-5 py-2 font-semibold text-white transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-inkBlue">
                     Email / 联系我

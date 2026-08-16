@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import CursorGlow from "./components/CursorGlow";
+import OpeningTransition from "./components/OpeningTransition";
 import { getCategoryById, getPortfolioItemById, type PortfolioCategoryId } from "./data/portfolioData";
 import HomePage from "./pages/HomePage";
 import CategoryPage from "./pages/CategoryPage";
@@ -52,10 +54,24 @@ export default function App() {
     return <HomePage />;
   }, [route]);
 
+  const routeKey = route.name === "home" ? "home" : route.name === "category" ? `category-${route.categoryId}` : `work-${route.id}`;
+
   return (
     <>
+      <OpeningTransition />
       <CursorGlow />
-      {page}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={routeKey}
+          className="page-transition-shell"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {page}
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 }

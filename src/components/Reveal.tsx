@@ -1,12 +1,16 @@
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 
 type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  variant?: "fade-up" | "fade" | "mask" | "card";
+  once?: boolean;
 };
 
-export default function Reveal({ children, className = "", delay = 0 }: RevealProps) {
+export const staggerDelay = (index: number, step = 60, max = 240) => Math.min(index * step, max);
+
+export default function Reveal({ children, className = "", delay = 0, variant = "fade-up", once = true }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -14,12 +18,15 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
     const element = ref.current;
     if (!element) return undefined;
 
+    if (!("IntersectionObserver" in window)) {
+      setVisible(true);
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(element);
-        }
+        setVisible(entry.isIntersecting);
+        if (entry.isIntersecting && once) observer.unobserve(element);
       },
       { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
     );
@@ -31,10 +38,9 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
   return (
     <div
       ref={ref}
-      className={`${className} transition-all duration-1000 ease-apple ${
-        visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-7 scale-[.99] opacity-0"
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
+      data-reveal="true"
+      className={`reveal-shell reveal-shell--${variant} ${visible ? "reveal-shell--visible" : ""} ${className}`}
+      style={{ "--reveal-delay": `${delay}ms` } as CSSProperties}
     >
       {children}
     </div>

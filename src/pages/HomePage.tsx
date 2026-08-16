@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import AboutSection from "../components/AboutSection";
+import AmbientMotionLayer from "../components/AmbientMotionLayer";
+import { staggerDelay } from "../components/Reveal";
 import SelectedWorksPreview from "../components/SelectedWorksPreview";
 import SiteNav from "../components/SiteNav";
 import { getItemsByCategory, portfolioCategories } from "../data/portfolioData";
 import { assetPath } from "../utils/assetPath";
+import { motionTokens } from "../utils/motionTokens";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = motionTokens.easePrimary;
 
 const scrollToSelected = () => {
   document.getElementById("selected-works")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -14,6 +17,7 @@ const scrollToSelected = () => {
 
 function Bird({ className = "", delay = 0 }: { className?: string; delay?: number }) {
   const [away, setAway] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.button
@@ -24,12 +28,12 @@ function Bird({ className = "", delay = 0 }: { className?: string; delay?: numbe
       drag
       dragMomentum={false}
       dragElastic={0.14}
-      initial={{ opacity: 0, y: 16, scale: 0.96 }}
-      animate={away ? { opacity: 0.18, x: 160, y: -90, scale: 0.82, rotate: 10 } : { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
-      transition={{ duration: away ? 0.9 : 0.72, delay, ease }}
+      initial={reduceMotion ? false : { opacity: 0, y: 16, scale: 0.96 }}
+      animate={reduceMotion ? { opacity: away ? 0.18 : 1, x: 0, y: 0, scale: 1, rotate: 0 } : away ? { opacity: 0.18, x: 160, y: -90, scale: 0.82, rotate: 10 } : { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: away ? 0.9 : 0.72, delay, ease }}
       onClick={() => setAway((current) => !current)}
     >
-      <motion.span className="absolute inset-0 block" animate={{ y: [0, -4, 0] }} transition={{ duration: 5.6, repeat: Infinity, ease }}>
+      <motion.span className="absolute inset-0 block" animate={reduceMotion ? { y: 0 } : { y: [0, -4, 0] }} transition={reduceMotion ? { duration: 0 } : { duration: 5.6, repeat: Infinity, ease }}>
         <span className="absolute bottom-2 right-2 h-8 w-7 rounded-[52%_48%_45%_55%] bg-white shadow-[0_12px_24px_rgba(0,110,190,0.18)]" />
         <span className="absolute bottom-4 right-5 h-6 w-5 origin-bottom-right rotate-[-28deg] rounded-[100%_0_100%_30%] bg-white transition-transform duration-500 ease-apple group-hover:rotate-[-38deg]" />
         <span className="absolute bottom-2 right-9 h-3.5 w-6 bg-white [clip-path:polygon(0_96%,100%_0,68%_100%,100%_100%)]" />
@@ -40,15 +44,17 @@ function Bird({ className = "", delay = 0 }: { className?: string; delay?: numbe
 }
 
 function Pole() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      className="absolute right-[14vw] top-[18vh] z-20 hidden h-[72vh] w-[430px] cursor-grab active:cursor-grabbing md:block"
+      className="hero-pole absolute right-[14vw] top-[18vh] z-20 hidden h-[72vh] w-[430px] cursor-grab active:cursor-grabbing md:block"
       drag
       dragMomentum={false}
       dragElastic={0.12}
-      initial={{ opacity: 0, y: 44, rotate: -1 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 44, rotate: -1 }}
       animate={{ opacity: 1, y: 0, rotate: -1 }}
-      transition={{ duration: 1.2, delay: 0.35, ease }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 1.2, delay: 0.35, ease }}
       aria-hidden="true"
       data-glow="true"
     >
@@ -73,6 +79,7 @@ function Pole() {
 
 function WireField() {
   const [activeWire, setActiveWire] = useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
   const paths = [
     "M -80 218 C 260 186, 520 180, 825 220 S 1220 314, 1500 268",
     "M -80 352 C 276 320, 500 278, 790 312 S 1215 394, 1500 356",
@@ -81,7 +88,7 @@ function WireField() {
   ];
 
   return (
-    <svg className="absolute inset-0 z-10 h-full w-full" viewBox="0 0 1440 780" preserveAspectRatio="none" aria-hidden="true">
+    <svg className="hero-wire-field absolute inset-0 z-10 h-full w-full" viewBox="0 0 1440 780" preserveAspectRatio="none" aria-hidden="true">
       {paths.map((path, index) => (
         <motion.path
           key={path}
@@ -91,9 +98,9 @@ function WireField() {
           strokeWidth={activeWire === index ? 1.7 : 1.05}
           vectorEffect="non-scaling-stroke"
           strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: activeWire === index ? 1 : 0.78, y: activeWire === index ? -7 : [0, -5, 0] }}
-          transition={{ pathLength: { duration: 1.8, delay: 0.24 + index * 0.11, ease }, opacity: { duration: 0.45, ease }, y: { duration: 7 + index, repeat: activeWire === index ? 0 : Infinity, ease } }}
+          initial={reduceMotion ? false : { pathLength: 0, opacity: 0 }}
+          animate={reduceMotion ? { pathLength: 1, opacity: 0.78, y: 0 } : { pathLength: 1, opacity: activeWire === index ? 1 : 0.78, y: activeWire === index ? -7 : [0, -5, 0] }}
+          transition={reduceMotion ? { duration: 0 } : { pathLength: { duration: 1.8, delay: 0.24 + index * 0.11, ease }, opacity: { duration: 0.45, ease }, y: { duration: 7 + index, repeat: activeWire === index ? 0 : Infinity, ease } }}
           onMouseEnter={() => setActiveWire(index)}
           onMouseLeave={() => setActiveWire(null)}
           onClick={() => setActiveWire(activeWire === index ? null : index)}
@@ -105,42 +112,53 @@ function WireField() {
 }
 
 export default function HomePage() {
+  const reduceMotion = useReducedMotion();
   const categoryLinks = portfolioCategories.map((category) => ({ category, firstItem: getItemsByCategory(category.id)[0] }));
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <SiteNav theme="dark" />
-      <section className="relative min-h-dvh overflow-hidden bg-[#08a9f4] px-6 pb-12 pt-28 text-white sm:px-10 lg:px-20">
-        <motion.div className="absolute inset-[-4%] bg-[radial-gradient(circle_at_68%_16%,rgba(255,255,255,0.34),transparent_15%),radial-gradient(circle_at_17%_70%,rgba(255,255,255,0.14),transparent_22%),linear-gradient(132deg,#09aaf4_0%,#13b8ff_46%,#049ce9_100%)]" animate={{ scale: [1, 1.025, 1], x: [0, 12, 0], y: [0, -8, 0] }} transition={{ duration: 16, repeat: Infinity, ease }} />
+      <section className="hero-scene relative min-h-dvh overflow-hidden bg-[#08a9f4] px-6 pb-12 pt-28 text-white sm:px-10 lg:px-20">
+        <div className="hero-scene__background-reactive absolute inset-[-4%]">
+          <motion.div
+            className="hero-scene__background-core absolute inset-0 bg-[radial-gradient(circle_at_68%_16%,rgba(255,255,255,0.34),transparent_15%),radial-gradient(circle_at_17%_70%,rgba(255,255,255,0.14),transparent_22%),linear-gradient(132deg,#09aaf4_0%,#13b8ff_46%,#049ce9_100%)]"
+            initial={reduceMotion ? false : { opacity: 0.9, scale: 0.97 }}
+            animate={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: [1, 1.012, 1], x: [0, 12, 0], y: [0, -8, 0] }}
+            transition={reduceMotion ? { duration: 0 } : { opacity: { duration: 0.85, ease }, scale: { duration: 1.05, ease }, x: { duration: 16, repeat: Infinity, ease }, y: { duration: 16, repeat: Infinity, ease } }}
+          />
+        </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_0%,rgba(255,255,255,.13)_44%,transparent_60%)] opacity-70" />
+        <AmbientMotionLayer />
         <div className="absolute left-0 top-0 z-20 w-max whitespace-nowrap text-[12px] font-medium leading-none text-white/70 sm:text-sm">PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO</div>
-        <WireField />
+        <div className="hero-scene__wire-reactive absolute inset-0">
+          <WireField />
+        </div>
         <Pole />
-        <Bird className="left-[13vw] top-[57vh]" delay={0.72} />
-        <Bird className="right-[12vw] top-[32vh] scale-90" delay={0.94} />
+        <Bird className="left-[13vw] top-[57vh] hidden md:block" delay={0.72} />
+        <Bird className="right-[12vw] top-[32vh] hidden scale-90 md:block" delay={0.94} />
 
-        <div className="relative z-30 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl content-between gap-12">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, ease }} className="max-w-4xl">
-            <p className="mb-5 max-w-2xl text-sm font-semibold uppercase leading-6 text-sky-50/80">Graphic Design / Animation / Video / AIGC Creative Practice</p>
-            <h1 className="flex flex-col text-balance text-[clamp(3.7rem,11vw,11rem)] font-black leading-[.78] tracking-normal drop-shadow-[0_18px_42px_rgba(0,93,170,.1)]">
-              <span>PORTFOLIO</span>
-              <span className="text-[.78em]">2026</span>
+        <div className="home-hero-content relative z-30 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl content-between gap-12">
+          <motion.div initial={reduceMotion ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 1.05, ease }} className="home-hero-copy max-w-4xl">
+            <p className="hero-text-line mb-5 max-w-2xl text-sm font-semibold uppercase leading-6 text-sky-50/80"><motion.span initial={reduceMotion ? false : { y: "105%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.62, delay: 0.08, ease }}>Graphic Design / Animation / Video / AIGC Creative Practice</motion.span></p>
+            <h1 className="flex flex-col text-balance text-[clamp(3rem,7.2vw,6.8rem)] font-black leading-[.84] tracking-normal drop-shadow-[0_18px_42px_rgba(0,93,170,.1)]">
+              <span className="hero-text-line"><motion.span initial={reduceMotion ? false : { y: "105%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.72, delay: 0.16, ease }}>PORTFOLIO</motion.span></span>
+              <span className="hero-text-line text-[.78em]"><motion.span initial={reduceMotion ? false : { y: "105%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.72, delay: 0.24, ease }}>2026</motion.span></span>
             </h1>
-            <p className="mt-7 text-[clamp(1.7rem,4vw,4.5rem)] font-light leading-none text-white/94">林洪乐个人作品集</p>
-            <p className="mt-6 max-w-xl text-pretty text-base font-light leading-8 text-sky-50/78">平面设计、手绘、动画、视频与编剧分镜，多媒介创作从一根线展开。</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <button type="button" onClick={scrollToSelected} data-glow="true" className="rounded-full border border-white/65 bg-white/16 px-6 py-3 text-sm font-semibold shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white/24 focus-visible:outline-white">View Works / 查看作品</button>
-              <a href="mailto:lhl20040919@gmail.com" data-glow="true" className="rounded-full border border-white/30 px-6 py-3 text-sm text-white/82 transition duration-500 ease-apple hover:scale-[1.03] hover:border-white/65 hover:text-white focus-visible:outline-white">Contact / 联系我</a>
-            </div>
+            <p className="hero-text-line mt-7 text-[clamp(1.7rem,4vw,4.5rem)] font-light leading-none text-white/94"><motion.span initial={reduceMotion ? false : { y: "105%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.72, delay: 0.36, ease }}>林洪乐个人作品集</motion.span></p>
+            <p className="hero-text-line mt-6 max-w-xl text-pretty text-base font-light leading-8 text-sky-50/78"><motion.span initial={reduceMotion ? false : { y: "105%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.62, delay: 0.46, ease }}>平面设计、手绘、动画、视频与编剧分镜，多媒介创作从一根线展开。</motion.span></p>
+            <motion.div initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.56, ease }} className="mt-8 flex flex-wrap gap-4">
+              <button type="button" onClick={scrollToSelected} data-glow="true" className="ambient-action rounded-full border border-white/65 bg-white/16 px-6 py-3 text-sm font-semibold shadow-glass backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-white/24 focus-visible:outline-white">View Works / 查看作品</button>
+              <a href="mailto:lhl20040919@gmail.com" data-glow="true" className="ambient-action rounded-full border border-white/30 px-6 py-3 text-sm text-white/82 transition duration-500 ease-apple hover:scale-[1.03] hover:border-white/65 hover:text-white focus-visible:outline-white">Contact / 联系我</a>
+            </motion.div>
           </motion.div>
 
-          <div className="relative z-40 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+          <div className="hover-group relative z-40 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
             {categoryLinks.map(({ category, firstItem }, index) => (
-              <motion.a key={category.id} href={"#/category/" + category.id} data-glow="true" className="group rounded-[10px] border border-white/30 bg-white/16 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_18px_48px_rgba(0,95,170,.12)] backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-1 hover:scale-[1.018] hover:bg-white/22 focus-visible:outline-white" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.82, delay: 0.78 + index * 0.1, ease }}>
+              <motion.a key={category.id} href={"#/category/" + category.id} data-glow="true" className="home-category-card group rounded-[10px] border border-white/30 bg-white/16 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_18px_48px_rgba(0,95,170,.12)] backdrop-blur-2xl transition duration-500 ease-apple hover:-translate-y-1 hover:scale-[1.018] hover:bg-white/22 focus-visible:outline-white" initial={reduceMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.82, delay: 0.78 + staggerDelay(index) / 1000, ease }}>
                 <p className="text-xs font-semibold uppercase text-sky-50/65">{category.partLabel}</p>
                 <h2 className="mt-4 text-lg font-semibold">{category.titleEN}</h2>
                 <p className="mt-2 text-sm font-light text-white/72">{category.titleCN}</p>
-                {firstItem && <img src={assetPath(firstItem.coverImage)} alt={category.titleCN} className="mt-5 h-auto w-full rounded-md border border-white/18 bg-white/8 object-contain opacity-90 transition duration-700 ease-apple group-hover:scale-[1.02] group-hover:opacity-100" loading="lazy" />}
+              {firstItem && <img src={assetPath(firstItem.coverImage)} alt={category.titleCN} className="home-category-media mt-5 h-auto w-full rounded-md border border-white/18 bg-white/8 object-contain opacity-90" loading="lazy" />}
               </motion.a>
             ))}
           </div>

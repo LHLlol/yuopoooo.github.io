@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { assetPath } from "../utils/assetPath";
+import { motionTokens } from "../utils/motionTokens";
 
 export type PreviewImage = {
   src: string;
@@ -15,16 +16,23 @@ type LightboxProps = {
   onClose: () => void;
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 export default function Lightbox({ images, activeIndex, onChange, onClose }: LightboxProps) {
   const image = images[activeIndex];
+  const reduceMotion = useReducedMotion();
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const pointerRef = useRef<{ id: number; x: number; y: number } | null>(null);
+
+  const changeImage = (nextIndex: number) => {
+    if (nextIndex === activeIndex) return;
+    setDirection(nextIndex > activeIndex ? 1 : -1);
+    onChange(nextIndex);
+  };
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") onChange(Math.max(activeIndex - 1, 0));
-      if (event.key === "ArrowRight") onChange(Math.min(activeIndex + 1, images.length - 1));
+      if (event.key === "ArrowLeft") changeImage(Math.max(activeIndex - 1, 0));
+      if (event.key === "ArrowRight") changeImage(Math.min(activeIndex + 1, images.length - 1));
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -35,11 +43,11 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
 
   return (
     <motion.div
-      className="fixed inset-0 z-[80] flex flex-col overflow-hidden bg-slate-950/90 p-4 text-white backdrop-blur-2xl sm:p-6"
+      className="lightbox-shell fixed inset-0 z-[80] flex flex-col overflow-hidden bg-slate-950/90 p-4 text-white backdrop-blur-2xl sm:p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.38, ease }}
+      transition={{ duration: reduceMotion ? 0 : 0.28, ease: motionTokens.easePrimary }}
       onClick={onClose}
     >
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[44rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-300/20 blur-3xl" />
@@ -67,7 +75,7 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
           type="button"
           onClick={(event) => {
             event.stopPropagation();
-            onChange(Math.max(activeIndex - 1, 0));
+            changeImage(Math.max(activeIndex - 1, 0));
           }}
           disabled={activeIndex === 0}
           className="size-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 focus-visible:outline-white disabled:pointer-events-none disabled:opacity-25"
@@ -78,17 +86,31 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
         <AnimatePresence mode="wait">
           <motion.div
             key={image.src}
-            className="flex min-h-0 justify-center"
-            initial={{ scale: 0.9, y: 26, opacity: 0, filter: "blur(18px)" }}
-            animate={{ scale: 1, y: 0, opacity: 1, filter: "blur(0px)" }}
-            exit={{ scale: 0.96, y: -10, opacity: 0, filter: "blur(10px)" }}
-            transition={{ duration: 0.68, ease }}
+            className="lightbox-media flex min-h-0 justify-center"
+            initial={reduceMotion ? false : { scale: 0.96, x: direction * 24, opacity: 0, filter: "blur(8px)" }}
+            animate={{ scale: 1, x: 0, opacity: 1, filter: "blur(0px)" }}
+            exit={reduceMotion ? undefined : { scale: 0.985, x: direction * -24, opacity: 0, filter: "blur(6px)" }}
+            transition={{ duration: reduceMotion ? 0 : 0.42, ease: motionTokens.easePrimary }}
+            onPointerDown={(event) => {
+              pointerRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+              event.currentTarget.setPointerCapture(event.pointerId);
+            }}
+            onPointerUp={(event) => {
+              const start = pointerRef.current;
+              pointerRef.current = null;
+              if (!start) return;
+              const deltaX = event.clientX - start.x;
+              const deltaY = event.clientY - start.y;
+              if (Math.abs(deltaX) < 44 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return;
+              event.stopPropagation();
+              changeImage(deltaX < 0 ? Math.min(activeIndex + 1, images.length - 1) : Math.max(activeIndex - 1, 0));
+            }}
             onClick={(event) => event.stopPropagation()}
           >
             <img
               src={assetPath(image.src)}
               alt={image.title}
-              className="max-h-[calc(100vh-150px)] w-auto max-w-full rounded-lg object-contain shadow-[0_0_110px_rgba(125,211,252,0.38)]"
+              className="lightbox-image max-h-[calc(100vh-150px)] w-auto max-w-full rounded-lg object-contain"
             />
           </motion.div>
         </AnimatePresence>
@@ -96,7 +118,7 @@ export default function Lightbox({ images, activeIndex, onChange, onClose }: Lig
           type="button"
           onClick={(event) => {
             event.stopPropagation();
-            onChange(Math.min(activeIndex + 1, images.length - 1));
+            changeImage(Math.min(activeIndex + 1, images.length - 1));
           }}
           disabled={activeIndex === images.length - 1}
           className="size-11 rounded-full border border-white/25 bg-white/10 text-2xl leading-none transition duration-500 ease-apple hover:scale-[1.04] hover:bg-sky-300/20 focus-visible:outline-white disabled:pointer-events-none disabled:opacity-25"

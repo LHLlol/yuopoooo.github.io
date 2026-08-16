@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import CardDeck from "../components/CardDeck";
 import InteractiveImage from "../components/InteractiveImage";
 import Lightbox, { type PreviewImage } from "../components/Lightbox";
-import Reveal from "../components/Reveal";
+import Reveal, { staggerDelay } from "../components/Reveal";
 import SiteNav from "../components/SiteNav";
 import { type PortfolioItem } from "../data/portfolioData";
 import { assetPath } from "../utils/assetPath";
@@ -42,8 +43,9 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
           </a>
 
           <div className="grid gap-12 lg:grid-cols-[380px_1fr]">
-            <aside>
-              <div className="sticky top-28">
+            <Reveal>
+              <aside>
+                <div className="sticky top-28">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">{item.partLabel} · {item.categorySubtitle}</p>
                 <h1 className="mt-4 text-balance text-[clamp(2.4rem,4.8vw,4.8rem)] font-black leading-[0.95] text-inkBlue">
                   {item.titleCN}
@@ -70,8 +72,9 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                     </dd>
                   </div>
                 </dl>
-              </div>
-            </aside>
+                </div>
+              </aside>
+            </Reveal>
 
             <div>
               <Reveal>
@@ -92,7 +95,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                     <p className="mt-4 max-w-[68ch] text-pretty text-base leading-8 text-slate-600">{item.description}</p>
                   </div>
                 </Reveal>
-                <Reveal delay={120}>
+                <Reveal delay={staggerDelay(1)}>
                   <div>
                     <p className="text-sm font-semibold uppercase text-portfolioBlue">Responsibilities</p>
                     <div className="mt-4 grid gap-3">
@@ -119,7 +122,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                   </Reveal>
                   <div className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-2">
                     {item.aigcWorkflow.map((stage, index) => (
-                      <Reveal key={stage.title} delay={(index % 2) * 80}>
+                      <Reveal key={stage.title} delay={staggerDelay(index + 1)}>
                         <article className="border-t border-sky-200 pt-5">
                           <div className="flex items-start gap-4">
                             <span className="text-sm font-black text-portfolioBlue">{String(index + 1).padStart(2, "0")}</span>
@@ -149,7 +152,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                   </Reveal>
                   <div className="mt-8 grid gap-7">
                     {item.promptExamples.map((example, index) => (
-                      <Reveal key={example.shot + example.title} delay={(index % 2) * 70}>
+                      <Reveal key={example.shot + example.title} delay={staggerDelay(index + 1)}>
                         <article className="grid gap-5 border-t border-sky-200 py-6 lg:grid-cols-[190px_1fr]">
                           <div>
                             <p className="text-xs font-semibold uppercase text-portfolioBlue">{example.shot}</p>
@@ -195,34 +198,51 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
                       </a>
                     </div>
                   </Reveal>
-                  <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                    {item.storyboard.images.map((src, index) => (
-                      <InteractiveImage
-                        key={src}
-                        src={src}
-                        title={item.storyboard?.title ?? item.titleCN}
-                        subtitle={`Storyboard ${String(index + 1).padStart(2, "0")}`}
-                        onOpen={() => setStoryboardIndex(index)}
-                        mediaClassName="aspect-[16/11] bg-white"
-                      />
-                    ))}
-                  </div>
+                  <Reveal className="mt-8">
+                    <CardDeck
+                      items={item.storyboard.images}
+                      variant="media"
+                      ariaLabel={`${item.storyboard.title} 分镜卡组`}
+                      renderCard={(src, state) => (
+                        <div className="card-deck__media-layer card-deck-media-card h-full">
+                          <InteractiveImage
+                            src={src}
+                            title={item.storyboard?.title ?? item.titleCN}
+                            subtitle={`Storyboard ${String(state.index + 1).padStart(2, "0")}`}
+                            priority={state.isActive}
+                            onOpen={() => setStoryboardIndex(state.index)}
+                            className="h-full p-2"
+                            mediaClassName="h-full bg-white"
+                          />
+                        </div>
+                      )}
+                    />
+                  </Reveal>
                 </section>
               )}
 
               <section className="mt-12 border-t border-sky-200 pt-10">
                 <p className="text-sm font-semibold uppercase text-portfolioBlue">Work Gallery</p>
-                <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                  {item.previewImages.map((src, index) => (
-                    <InteractiveImage
-                      key={src}
-                      src={src}
-                      title={item.titleCN}
-                      subtitle={item.categorySubtitle}
-                      onOpen={() => setPreviewIndex(index)}
-                    />
-                  ))}
-                </div>
+                <Reveal className="mt-6">
+                  <CardDeck
+                    items={item.previewImages}
+                    variant="media"
+                    ariaLabel={`${item.titleCN} 作品图库卡组`}
+                    renderCard={(src, state) => (
+                      <div className="card-deck__media-layer card-deck-media-card h-full">
+                        <InteractiveImage
+                          src={src}
+                          title={item.titleCN}
+                          subtitle={item.categorySubtitle}
+                          priority={state.isActive}
+                          onOpen={() => setPreviewIndex(state.index)}
+                          className="h-full p-2"
+                          mediaClassName="h-full bg-white"
+                        />
+                      </div>
+                    )}
+                  />
+                </Reveal>
               </section>
             </div>
           </div>

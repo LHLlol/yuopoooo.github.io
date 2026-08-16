@@ -1,3 +1,4 @@
+import { useEffect, useRef, type PointerEvent } from "react";
 import { assetPath } from "../utils/assetPath";
 
 type InteractiveImageProps = {
@@ -21,15 +22,63 @@ export default function InteractiveImage({
   priority = false,
   onOpen,
 }: InteractiveImageProps) {
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const frameRef = useRef<number | null>(null);
+  const pointerRef = useRef({ tiltX: "0deg", tiltY: "0deg", glareX: "50%", glareY: "50%" });
   const framed = mediaClassName.trim().length > 0;
+
+  const applyPointerStyle = () => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    card.style.setProperty("--card-tilt-x", pointerRef.current.tiltX);
+    card.style.setProperty("--card-tilt-y", pointerRef.current.tiltY);
+    card.style.setProperty("--card-glare-x", pointerRef.current.glareX);
+    card.style.setProperty("--card-glare-y", pointerRef.current.glareY);
+    frameRef.current = null;
+  };
+
+  const schedulePointerStyle = () => {
+    if (frameRef.current === null) frameRef.current = window.requestAnimationFrame(applyPointerStyle);
+  };
+
+  const resetCardTilt = () => {
+    pointerRef.current = { tiltX: "0deg", tiltY: "0deg", glareX: "50%", glareY: "50%" };
+    if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+    frameRef.current = null;
+    applyPointerStyle();
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.pointerType === "touch" || !cardRef.current) return;
+
+    const bounds = cardRef.current.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    pointerRef.current = {
+      tiltX: `${(-y).toFixed(2)}deg`,
+      tiltY: `${x.toFixed(2)}deg`,
+      glareX: `${((x + 0.5) * 100).toFixed(1)}%`,
+      glareY: `${((y + 0.5) * 100).toFixed(1)}%`,
+    };
+    schedulePointerStyle();
+  };
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+  }, []);
 
   return (
     <button
+      ref={cardRef}
       type="button"
       onClick={onOpen}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetCardTilt}
+      onBlur={resetCardTilt}
       data-interactive-image="true"
       className={
-        "group relative block w-full overflow-hidden rounded-[12px] border border-sky-100 bg-white p-2 text-left shadow-[0_24px_80px_rgba(0,92,170,0.08)] transition duration-500 ease-apple hover:-translate-y-1 hover:scale-[1.018] hover:border-sky-200 hover:shadow-[0_28px_92px_rgba(0,145,230,0.18)] focus-visible:border-portfolioBlue focus-visible:outline-portfolioBlue " +
+        "interactive-image-card group relative block w-full overflow-hidden rounded-[12px] border border-sky-100 bg-white p-2 text-left focus-visible:border-portfolioBlue focus-visible:outline-portfolioBlue " +
         className
       }
     >
@@ -40,14 +89,15 @@ export default function InteractiveImage({
           loading={priority ? "eager" : "lazy"}
           className={
             (framed ? "h-full w-full object-contain " : "h-auto w-full object-contain ") +
-            "rounded-lg transition duration-700 ease-apple group-hover:scale-[1.018] group-focus-visible:scale-[1.018] " +
+            "interactive-image-media rounded-lg " +
             imageClassName
           }
         />
       </div>
-      <div className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-3 rounded-lg border border-white/40 bg-slate-950/38 px-4 py-3 text-white opacity-0 shadow-[inset_0_1px_0_rgba(255,255,255,.36),0_12px_34px_rgba(0,90,170,.16)] backdrop-blur-2xl transition duration-500 ease-apple group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-        <p className="text-sm font-semibold drop-shadow-[0_1px_10px_rgba(0,43,90,.45)]">{title}</p>
-        {subtitle && <p className="mt-1 text-xs text-white/82 drop-shadow-[0_1px_8px_rgba(0,43,90,.35)]">{subtitle}</p>}
+      <span className="interactive-image-glare" aria-hidden="true" />
+      <div className="interactive-image-caption pointer-events-none absolute inset-x-3 bottom-3 rounded-lg border border-white/40 bg-slate-950/55 px-4 py-3 text-white shadow-[inset_0_1px_0_rgba(255,255,255,.36),0_12px_34px_rgba(0,90,170,.16)] backdrop-blur-2xl">
+        <p className="interactive-image-caption__title text-sm font-semibold drop-shadow-[0_1px_10px_rgba(0,43,90,.45)]">{title}</p>
+        {subtitle && <p className="interactive-image-caption__meta mt-1 text-xs text-white/82 drop-shadow-[0_1px_8px_rgba(0,43,90,.35)]">{subtitle}</p>}
       </div>
     </button>
   );

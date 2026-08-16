@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import CardDeck from "../components/CardDeck";
 import InteractiveImage from "../components/InteractiveImage";
 import Lightbox, { type PreviewImage } from "../components/Lightbox";
 import Reveal from "../components/Reveal";
@@ -11,6 +12,7 @@ import {
   portfolioCategories,
   type PortfolioCategoryId,
 } from "../data/portfolioData";
+import { assetPath } from "../utils/assetPath";
 
 type CategoryPageProps = {
   categoryId: PortfolioCategoryId;
@@ -51,14 +53,15 @@ export default function CategoryPage({ categoryId }: CategoryPageProps) {
       <SiteNav />
 
       <section className="px-5 pb-10 pt-32 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl border-b border-sky-200 pb-12 text-center">
+        <Reveal className="mx-auto max-w-7xl">
+          <div className="border-b border-sky-200 pb-12 text-center">
           <p className="text-sm font-semibold uppercase text-portfolioBlue">{category.partLabel} · {category.categorySubtitle}</p>
           <h1 className="mx-auto mt-5 max-w-5xl text-balance text-[clamp(2.7rem,6vw,6.4rem)] font-black leading-[0.9] tracking-normal text-inkBlue">
             {category.titleEN}
           </h1>
           <h2 className="mt-6 text-2xl font-light text-slate-700">{category.titleCN}</h2>
           <p className="mx-auto mt-6 max-w-3xl text-pretty text-base leading-8 text-slate-600">{category.intro}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="category-pills mt-8 flex flex-wrap justify-center gap-3">
             {portfolioCategories.map((item) => (
               <a
                 key={item.id}
@@ -74,101 +77,72 @@ export default function CategoryPage({ categoryId }: CategoryPageProps) {
               </a>
             ))}
           </div>
-          <WireBirdMark />
-        </div>
+            <WireBirdMark />
+          </div>
+        </Reveal>
       </section>
 
       <section className="px-5 pb-28 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          {items[0] && (
-            <Reveal>
-              <article className="mx-auto mb-16 max-w-6xl rounded-[18px] border border-sky-100 bg-[#f8fbff] p-4 shadow-[0_22px_80px_rgba(0,87,160,0.08)]">
-                <div className="mb-6 text-center">
-                  <p className="text-sm font-semibold uppercase text-portfolioBlue">Featured Project</p>
-                  <h3 className="mt-2 text-3xl font-black text-slate-900 sm:text-5xl">{items[0].titleCN}</h3>
-                  <p className="mt-3 text-base text-slate-500">{items[0].titleEN} · {items[0].role}</p>
-                </div>
-                <InteractiveImage
-                  src={items[0].images[0]}
-                  title={items[0].titleCN}
-                  subtitle={items[0].categorySubtitle}
-                  priority
-                  onOpen={() => openImage(items[0].id, 0)}
-                  className="p-3 shadow-none"
-                  mediaClassName="aspect-[16/10] bg-white"
-                />
-                {items[0].images.length > 1 && (
-                  <div className="mt-5 flex gap-4 overflow-x-auto pb-2">
-                    {items[0].images.slice(1).map((src, imageIndex) => (
-                      <InteractiveImage
-                        key={src}
-                        src={src}
-                        title={items[0].titleCN}
-                        subtitle={items[0].categorySubtitle}
-                        onOpen={() => openImage(items[0].id, imageIndex + 1)}
-                        className="min-w-[220px] max-w-[220px] p-2 shadow-[0_16px_52px_rgba(0,92,170,0.07)] sm:min-w-[260px] sm:max-w-[260px]"
-                        mediaClassName="aspect-[4/3] bg-white"
-                      />
-                    ))}
+        <Reveal className="mx-auto max-w-7xl">
+          <CardDeck
+            items={items}
+            variant="category"
+            ariaLabel={`${category.titleCN} 作品卡组`}
+            className="card-deck--category-page"
+            renderCard={(item, state) => (
+              <article className="card-deck-category-card flex h-full flex-col p-3 sm:p-4">
+                <div className="card-deck__text-layer flex items-start justify-between gap-4 px-2 pb-4 sm:px-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-portfolioBlue">{item.partLabel} · Selected Work</p>
+                    <h3 className="mt-2 text-2xl font-semibold leading-tight text-slate-900 sm:text-3xl">{item.titleCN}</h3>
+                    <p className="mt-1 text-sm leading-5 text-slate-500">{item.titleEN} · {item.role}</p>
                   </div>
-                )}
-                <div className="mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-2">
-                  {items[0].highlights.map((highlight) => (
-                    <span key={highlight} className="rounded-full bg-white px-3 py-1 text-xs text-inkBlue">{highlight}</span>
-                  ))}
+                  <span className="shrink-0 pt-1 text-sm text-slate-400">{item.year}</span>
                 </div>
-              </article>
-            </Reveal>
-          )}
 
-          <div className="grid items-stretch gap-10 md:grid-cols-2">
-            {items.slice(1).map((item, index) => (
-              <Reveal key={item.id} delay={(index % 2) * 90} className="h-full">
-                <article className="flex h-full flex-col rounded-[14px] border border-sky-100 bg-[#f8fbff] p-3 shadow-[0_18px_60px_rgba(0,87,160,0.07)]">
+                <div className="card-deck__media-layer min-h-0 flex-1">
                   <InteractiveImage
                     src={item.images[0]}
                     title={item.titleCN}
                     subtitle={item.categorySubtitle}
+                    priority={state.isActive}
                     onOpen={() => openImage(item.id, 0)}
-                    className="shrink-0 shadow-none"
-                    mediaClassName="aspect-[16/10] bg-white"
+                    className="h-full min-h-0 p-2 shadow-none"
+                    mediaClassName="h-full min-h-0 bg-white"
                   />
-                  <div className="mt-4 flex min-h-[118px] gap-3 overflow-x-auto pb-2">
-                    {item.images.length > 1 ? (
-                      item.images.slice(1).map((src, imageIndex) => (
-                        <InteractiveImage
-                          key={src}
-                          src={src}
-                          title={item.titleCN}
-                          subtitle={item.categorySubtitle}
-                          onOpen={() => openImage(item.id, imageIndex + 1)}
-                          className="min-w-[152px] max-w-[152px] rounded-[10px] p-1.5 shadow-none sm:min-w-[178px] sm:max-w-[178px]"
-                          mediaClassName="aspect-[4/3] bg-white"
-                        />
-                      ))
-                    ) : (
-                      <div className="min-w-full rounded-[10px] border border-dashed border-sky-100 bg-white/56" aria-hidden="true" />
-                    )}
+                </div>
+
+                <div className="card-deck__media-layer mt-3 flex min-h-[4.5rem] gap-3 overflow-x-auto px-2 pb-1 sm:px-3">
+                  {item.images.length > 1 ? item.images.slice(1, 4).map((src, imageIndex) => (
+                    <button
+                      key={src}
+                      type="button"
+                      onClick={() => openImage(item.id, imageIndex + 1)}
+                      className="w-24 shrink-0 overflow-hidden rounded-lg border border-sky-100 bg-white transition duration-500 ease-apple hover:scale-[1.02] hover:border-portfolioBlue focus-visible:outline-portfolioBlue sm:w-28"
+                      aria-label={`查看 ${item.titleCN} 图片 ${imageIndex + 2}`}
+                    >
+                      <img src={assetPath(src)} alt="" className="h-16 w-full object-cover sm:h-[4.5rem]" loading="lazy" />
+                    </button>
+                  )) : (
+                    <span className="flex items-center text-xs text-slate-400">Single image study / 单张视觉展示</span>
+                  )}
+                </div>
+
+                <div className="card-deck__text-layer px-2 pb-1 pt-3 sm:px-3">
+                  <p className="min-h-[4.5rem] overflow-hidden text-sm leading-7 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">{item.description}</p>
+                  <div className="mt-3 flex min-h-[2.5rem] flex-wrap content-start gap-2">
+                    {item.highlights.slice(0, 3).map((highlight) => (
+                      <span key={highlight} className="rounded-full bg-white px-3 py-1 text-xs text-inkBlue">{highlight}</span>
+                    ))}
                   </div>
-                  <div className="flex flex-1 flex-col px-2 pb-3 pt-5">
-                    <p className="text-xs font-semibold uppercase text-portfolioBlue">{item.partLabel} · Selected Work</p>
-                    <h3 className="mt-2 min-h-[64px] text-2xl font-semibold leading-tight text-slate-900">{item.titleCN}</h3>
-                    <p className="mt-1 min-h-[40px] text-sm leading-5 text-slate-500">{item.titleEN} · {item.role}</p>
-                    <p className="mt-4 min-h-[112px] overflow-hidden text-sm leading-7 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4]">{item.description}</p>
-                    <div className="mt-4 flex min-h-[58px] flex-wrap content-start gap-2">
-                      {item.highlights.slice(0, 3).map((highlight) => (
-                        <span key={highlight} className="rounded-full bg-white px-3 py-1 text-xs text-inkBlue">{highlight}</span>
-                      ))}
-                    </div>
-                    <a href={"#/work/" + item.id} className="mt-auto inline-flex w-fit rounded-full border border-sky-200 px-4 py-2 text-sm font-medium text-inkBlue transition hover:scale-[1.03] hover:border-portfolioBlue hover:bg-white">
-                      View Detail / 查看详情
-                    </a>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+                  <a href={"#/work/" + item.id} className="mt-3 inline-flex w-fit rounded-full border border-sky-200 px-4 py-2 text-sm font-medium text-inkBlue transition hover:scale-[1.02] hover:border-portfolioBlue hover:bg-white">
+                    View Detail / 查看详情
+                  </a>
+                </div>
+              </article>
+            )}
+          />
+        </Reveal>
       </section>
 
       <AnimatePresence>
