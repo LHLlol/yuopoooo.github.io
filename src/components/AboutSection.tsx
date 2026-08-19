@@ -91,74 +91,77 @@ export default function AboutSection() {
               </div>
             </Reveal>
 
-            <Reveal delay={staggerDelay(3)}>
-              <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
-                <p className="text-sm font-semibold uppercase text-portfolioBlue">Experience</p>
-                <CardDeck
-                  items={profileData.experiences}
-                  variant="text"
-                  ariaLabel="Experience 经历卡组"
-                  className="mt-6"
-                  renderCard={(experience, state) => (
-                    <article className="card-deck-text-card card-deck-text-card--media h-full">
-                      <div className="card-deck-text-card__media" aria-hidden="true">
-                        <img
-                          src={assetPath(experienceMedia[state.index] ?? experienceMedia[0])}
-                          alt=""
-                          loading={state.isActive ? "eager" : "lazy"}
-                        />
-                      </div>
-                      <div className="card-deck__text-layer flex h-full flex-col justify-between">
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                          <div>
-                            <p className="text-xs font-semibold uppercase text-portfolioBlue">Professional Experience</p>
-                            <h3 className="mt-3 text-xl font-semibold text-slate-950 sm:text-2xl">{experience.title}</h3>
-                            <p className="mt-1 text-sm text-slate-500">{experience.organization}</p>
-                          </div>
-                          <p className="shrink-0 text-sm text-slate-400">{experience.period}</p>
-                        </div>
-                        <p className="mt-8 max-w-[68ch] text-sm leading-7 text-slate-600">{experience.description}</p>
-                      </div>
-                    </article>
-                  )}
-                />
-              </div>
-            </Reveal>
-
-            <Reveal delay={staggerDelay(4)}>
-              <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
-                <p className="text-sm font-semibold uppercase text-portfolioBlue">Highlights</p>
-                <CardDeck
-                  items={profileData.achievements}
-                  variant="text"
-                  ariaLabel="Highlights 成就卡组"
-                  className="mt-5"
-                  renderCard={(item, state) => (
-                    <article className="card-deck-text-card card-deck-text-card--media h-full">
-                      <div className="card-deck-text-card__media" aria-hidden="true">
-                        <img
-                          src={assetPath(highlightMedia[state.index] ?? highlightMedia[0])}
-                          alt=""
-                          loading={state.isActive ? "eager" : "lazy"}
-                        />
-                      </div>
-                      <div className="card-deck__text-layer flex h-full flex-col justify-between">
-                        <p className="text-xs font-semibold uppercase text-portfolioBlue">Selected Highlight · {String(state.index + 1).padStart(2, "0")}</p>
-                        <p className="mt-8 text-base leading-8 text-slate-700">{item}</p>
-                      </div>
-                    </article>
-                  )}
-                />
-                <div className="mt-7 flex flex-wrap gap-3 border-t border-sky-100 pt-6 text-sm">
-                  <a href={"mailto:" + profileData.email} className="rounded-full border border-portfolioBlue bg-portfolioBlue px-5 py-2 font-semibold text-white transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-inkBlue">
-                    Email / 联系我
-                  </a>
-                  <span className="rounded-full border border-sky-100 bg-white px-5 py-2 text-slate-600">{profileData.phone}</span>
-                  <span className="rounded-full border border-sky-100 bg-white px-5 py-2 text-slate-600">{profileData.location}</span>
-                </div>
-              </div>
-            </Reveal>
           </div>
+        </div>
+
+        <div className="about-details-wide mt-6 grid min-w-0 gap-6">
+          <Reveal delay={staggerDelay(3)}>
+            <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+              <p className="text-sm font-semibold uppercase text-portfolioBlue">Experience</p>
+              <CardDeck
+                items={profileData.experiences}
+                variant="text"
+                ariaLabel="Experience 经历卡组"
+                className="mt-6"
+                renderCard={(experience, state) => (
+                  <article className="card-deck-text-card card-deck-text-card--media h-full">
+                    <div className="card-deck-text-card__media" aria-hidden="true">
+                      <img
+                        src={assetPath(experienceMedia[state.index] ?? experienceMedia[0])}
+                        alt=""
+                        loading={state.isActive ? "eager" : "lazy"}
+                      />
+                    </div>
+                    <div className="card-deck__text-layer flex h-full flex-col justify-between">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                          <p className="text-xs font-semibold uppercase text-portfolioBlue">Professional Experience</p>
+                          <h3 className="mt-3 text-xl font-semibold text-slate-950 sm:text-2xl">{experience.title}</h3>
+                          <p className="mt-1 text-sm text-slate-500">{experience.organization}</p>
+                        </div>
+                        <p className="shrink-0 text-sm text-slate-400">{experience.period}</p>
+                      </div>
+                      <p className="mt-8 max-w-[68ch] text-sm leading-7 text-slate-600">{experience.description}</p>
+                    </div>
+                  </article>
+                )}
+              />
+            </div>
+          </Reveal>
+
+          <Reveal delay={staggerDelay(4)}>
+            <div className="content-block rounded-[18px] border border-sky-100 bg-white p-7 shadow-[0_20px_70px_rgba(0,90,160,.06)]">
+              <p className="text-sm font-semibold uppercase text-portfolioBlue">Highlights</p>
+              <CardDeck
+                items={profileData.achievements}
+                variant="text"
+                ariaLabel="Highlights 成就卡组"
+                className="mt-5"
+                renderCard={(item, state) => (
+                  <article className="card-deck-text-card card-deck-text-card--media h-full">
+                    <div className="card-deck-text-card__media" aria-hidden="true">
+                      <img
+                        src={assetPath(highlightMedia[state.index] ?? highlightMedia[0])}
+                        alt=""
+                        loading={state.isActive ? "eager" : "lazy"}
+                      />
+                    </div>
+                    <div className="card-deck__text-layer flex h-full flex-col justify-between">
+                      <p className="text-xs font-semibold uppercase text-portfolioBlue">Selected Highlight · {String(state.index + 1).padStart(2, "0")}</p>
+                      <p className="mt-8 text-base leading-8 text-slate-700">{item}</p>
+                    </div>
+                  </article>
+                )}
+              />
+              <div className="mt-7 flex flex-wrap gap-3 border-t border-sky-100 pt-6 text-sm">
+                <a href={"mailto:" + profileData.email} className="rounded-full border border-portfolioBlue bg-portfolioBlue px-5 py-2 font-semibold text-white transition duration-500 ease-apple hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-inkBlue">
+                  Email / 联系我
+                </a>
+                <span className="rounded-full border border-sky-100 bg-white px-5 py-2 text-slate-600">{profileData.phone}</span>
+                <span className="rounded-full border border-sky-100 bg-white px-5 py-2 text-slate-600">{profileData.location}</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
