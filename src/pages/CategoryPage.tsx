@@ -49,7 +49,7 @@ export default function CategoryPage({ categoryId }: CategoryPageProps) {
   if (!category) return null;
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main id="main-content" className="min-h-screen bg-white text-slate-900">
       <SiteNav />
 
       <section className="px-5 pb-10 pt-32 sm:px-8 lg:px-12">

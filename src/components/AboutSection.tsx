@@ -105,10 +105,11 @@ export default function AboutSection() {
                 className="mt-6"
                 renderCard={(experience, state) => (
                   <article className="card-deck-text-card card-deck-text-card--media h-full">
-                    <div className="card-deck-text-card__media" aria-hidden="true">
+                    {/* UI REVIEW FIX [WCAG 1.1.1]: expose the supporting project image with context. */}
+                    <div className="card-deck-text-card__media">
                       <img
                         src={assetPath(experienceMedia[state.index] ?? experienceMedia[0])}
-                        alt=""
+                        alt={`${experience.organization} 视觉项目展示`}
                         loading={state.isActive ? "eager" : "lazy"}
                       />
                     </div>
@@ -139,10 +140,11 @@ export default function AboutSection() {
                 className="mt-5"
                 renderCard={(item, state) => (
                   <article className="card-deck-text-card card-deck-text-card--media h-full">
-                    <div className="card-deck-text-card__media" aria-hidden="true">
+                    {/* UI REVIEW FIX [WCAG 1.1.1]: keep the achievement image available to assistive technology. */}
+                    <div className="card-deck-text-card__media">
                       <img
                         src={assetPath(highlightMedia[state.index] ?? highlightMedia[0])}
-                        alt=""
+                        alt={`Selected highlight ${String(state.index + 1).padStart(2, "0")} 项目展示`}
                         loading={state.isActive ? "eager" : "lazy"}
                       />
                     </div>

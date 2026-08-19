@@ -88,7 +88,7 @@ function WireField() {
   ];
 
   return (
-    <svg className="hero-wire-field absolute inset-0 z-10 h-full w-full" viewBox="0 0 1440 780" preserveAspectRatio="none" aria-hidden="true">
+    <svg className="hero-wire-field absolute inset-0 z-10 h-full w-full" viewBox="0 0 1440 780" preserveAspectRatio="none">
       {paths.map((path, index) => (
         <motion.path
           key={path}
@@ -103,7 +103,18 @@ function WireField() {
           transition={reduceMotion ? { duration: 0 } : { pathLength: { duration: 1.8, delay: 0.24 + index * 0.11, ease }, opacity: { duration: 0.45, ease }, y: { duration: 7 + index, repeat: activeWire === index ? 0 : Infinity, ease } }}
           onMouseEnter={() => setActiveWire(index)}
           onMouseLeave={() => setActiveWire(null)}
+          onFocus={() => setActiveWire(index)}
+          onBlur={() => setActiveWire(null)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setActiveWire((current) => (current === index ? null : index));
+            }
+          }}
           onClick={() => setActiveWire(activeWire === index ? null : index)}
+          tabIndex={0}
+          role="button"
+          aria-label={`激活第 ${index + 1} 条电线`}
           className="cursor-pointer"
         />
       ))}
@@ -116,7 +127,7 @@ export default function HomePage() {
   const categoryLinks = portfolioCategories.map((category) => ({ category, firstItem: getItemsByCategory(category.id)[0] }));
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main id="main-content" className="min-h-screen bg-white text-slate-900">
       <SiteNav theme="dark" />
       <section className="hero-scene relative min-h-dvh overflow-hidden bg-[#08a9f4] px-6 pb-12 pt-28 text-white sm:px-10 lg:px-20">
         <div className="hero-scene__background-reactive absolute inset-[-4%]">
