@@ -83,6 +83,35 @@ body {
   overflow-x: clip;
 }
 
+/* UI REVIEW FIX [WCAG 2.4.1]: keep the skip link hidden until keyboard focus. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border-radius: 9999px;
+  background: #075eac;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-160%);
+  transition: opacity 180ms ease-out, transform 180ms ease-out;
+}
+
+.skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
 img {
   display: block;
 }
@@ -370,6 +399,10 @@ body.opening-leaving .home-hero-content {
 }
 
 .site-nav-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding-inline: 0.35rem;
   position: relative;
   transition: transform 180ms ease-out, color 180ms ease-out;
 }
@@ -571,6 +604,9 @@ body.opening-leaving .home-hero-content {
 }
 
 .ambient-action {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   position: relative;
   isolation: isolate;
   transition: transform 180ms ease-out, box-shadow 180ms ease-out, background-color 180ms ease-out;
@@ -699,6 +735,8 @@ body.opening-leaving .home-hero-content {
 
 .about-details-grid > *,
 .about-details-stack > .reveal-shell,
+.about-details-wide,
+.about-details-wide > .reveal-shell,
 .selected-works-intro,
 .selected-works-deck-shell {
   min-width: 0;
@@ -706,9 +744,47 @@ body.opening-leaving .home-hero-content {
 
 .about-details-stack .content-block,
 .about-details-stack .card-deck,
+.about-details-wide,
+.about-details-wide .content-block,
+.about-details-wide .card-deck,
 .selected-works-deck-shell .card-deck {
   width: 100%;
   margin-inline: auto;
+}
+
+.about-details-wide {
+  align-items: stretch;
+}
+
+@media (min-width: 900px) {
+  .about-details-wide .card-deck-text-card--media .card-deck__text-layer {
+    width: 36%;
+    max-width: 36%;
+    padding-right: 0;
+  }
+
+  .about-details-wide .card-deck-text-card__media {
+    top: clamp(1rem, 2.5vw, 2rem);
+    right: clamp(1rem, 2.5vw, 2rem);
+    bottom: clamp(1rem, 2.5vw, 2rem);
+    width: 59%;
+    height: auto;
+    border-radius: 1rem;
+    padding: clamp(0.45rem, 0.8vw, 0.75rem);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(244, 251, 255, 0.96));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 30px rgba(0, 90, 160, 0.08);
+  }
+
+  .about-details-wide .card-deck-text-card__media img {
+    object-fit: contain;
+    border: 1px solid rgba(196, 226, 241, 0.9);
+    border-radius: 0.7rem;
+    background: #ffffff;
+  }
+
+  .about-details-wide .card-deck__arrow--previous {
+    left: calc(36% - 1.45rem);
+  }
 }
 
 .selected-works-copy {
@@ -738,7 +814,7 @@ body.opening-leaving .home-hero-content {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  color: #6380a0;
+  color: #52708f;
   font-size: 0.72rem;
   line-height: 1.4;
 }
@@ -780,7 +856,7 @@ body.opening-leaving .home-hero-content {
 .portfolio-footer__eyebrow,
 .portfolio-footer__group-label {
   margin: 0;
-  color: #08a9f4;
+  color: #006d9f;
   font-size: 0.76rem;
   font-weight: 700;
   line-height: 1.4;
@@ -808,10 +884,11 @@ body.opening-leaving .home-hero-content {
 
 .portfolio-footer__contact {
   display: inline-flex;
+  min-height: 2.75rem;
   align-items: center;
   gap: 1rem;
   margin-top: 2rem;
-  border-bottom: 1px solid #08a9f4;
+  border-bottom: 1px solid #006d9f;
   padding-bottom: 0.55rem;
   color: #075eac;
   font-size: clamp(1rem, 2vw, 1.3rem);
@@ -822,7 +899,7 @@ body.opening-leaving .home-hero-content {
 .portfolio-footer__contact:hover,
 .portfolio-footer__contact:focus-visible {
   border-color: #075eac;
-  color: #08a9f4;
+  color: #006d9f;
   transform: translateX(3px);
 }
 
@@ -850,7 +927,7 @@ body.opening-leaving .home-hero-content {
 
 .portfolio-footer__link {
   display: flex;
-  min-height: 2.7rem;
+  min-height: 2.75rem;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
@@ -892,13 +969,22 @@ body.opening-leaving .home-hero-content {
 }
 
 .portfolio-footer__meta a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   color: #075eac;
   transition: color 180ms ease-out;
 }
 
 .portfolio-footer__meta a:hover,
 .portfolio-footer__meta a:focus-visible {
-  color: #08a9f4;
+  color: #006d9f;
+}
+
+.category-pills > a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
 }
 
 .portfolio-footer__gradient {
@@ -1024,7 +1110,13 @@ body.opening-leaving .home-hero-content {
 
 @media (min-width: 1024px) {
   .selected-works-deck-shell {
-    overflow: hidden;
+    overflow: visible;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-deck--selected-works .card-deck__card {
+    --deck-step: clamp(3rem, 4.8vw, 4.5rem);
   }
 }
 
@@ -1266,7 +1358,7 @@ body.opening-leaving .home-hero-content {
 .card-deck-project-card,
 .card-deck-category-card {
   border: 1px solid rgba(var(--portfolio-blue-rgb), 0.12);
-  background: rgba(248, 251, 255, 0.94);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(242, 249, 255, 0.94));
   box-shadow: var(--shadow-info);
 }
 

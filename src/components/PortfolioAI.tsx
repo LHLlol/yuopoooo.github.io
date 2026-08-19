@@ -185,7 +185,7 @@ export default function PortfolioAI() {
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: 8, x: 8 }}
             transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="portfolio-ai-hint fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-4 z-[68] rounded-full border border-white/20 bg-[#075eac]/80 px-4 py-2 text-xs font-medium text-white shadow-glass backdrop-blur-xl focus-visible:outline-white"
+            className="portfolio-ai-hint fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-4 z-[68] min-h-11 rounded-full border border-white/20 bg-[#075eac]/80 px-4 py-2 text-xs font-medium text-white shadow-glass backdrop-blur-xl focus-visible:outline-white"
           >
             <span className="mr-1 text-sky-100/70">Portfolio AI</span>
             <span>Ask about my work</span>
@@ -222,8 +222,8 @@ export default function PortfolioAI() {
                 {currentContext.currentProject && <p className="mt-2 truncate text-[11px] text-sky-100/82">Context · {currentContext.currentProject.titleCN}</p>}
               </div>
               <div className="flex items-center gap-1 text-sky-100/72">
-                <button type="button" aria-label="Minimize portfolio AI" onClick={() => setOpen(false)} className="flex h-8 w-8 items-center justify-center rounded-full text-lg transition hover:bg-sky-950/25 hover:text-white focus-visible:outline-white">—</button>
-                <button type="button" aria-label="Close portfolio AI" onClick={() => { setMessages([]); setOpen(false); }} className="flex h-8 w-8 items-center justify-center rounded-full text-lg transition hover:bg-sky-950/25 hover:text-white focus-visible:outline-white">×</button>
+                <button type="button" aria-label="Minimize portfolio AI" onClick={() => setOpen(false)} className="flex h-11 w-11 items-center justify-center rounded-full text-lg transition hover:bg-sky-950/25 hover:text-white focus-visible:outline-white">—</button>
+                <button type="button" aria-label="Close portfolio AI" onClick={() => { setMessages([]); setOpen(false); }} className="flex h-11 w-11 items-center justify-center rounded-full text-lg transition hover:bg-sky-950/25 hover:text-white focus-visible:outline-white">×</button>
               </div>
             </div>
 
@@ -260,7 +260,7 @@ export default function PortfolioAI() {
                   aria-label="Ask about my work"
                   className="max-h-24 min-h-9 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-5 text-sky-50 outline-none placeholder:text-sky-100/64"
                 />
-                <button type="submit" aria-label="Send question" disabled={!input.trim() || thinking} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-50/16 text-lg text-sky-50 transition hover:bg-sky-50/26 disabled:cursor-not-allowed disabled:opacity-30 focus-visible:outline-white">↑</button>
+                <button type="submit" aria-label="Send question" disabled={!input.trim() || thinking} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-50/16 text-lg text-sky-50 transition hover:bg-sky-50/26 disabled:cursor-not-allowed disabled:opacity-30 focus-visible:outline-white">↑</button>
               </div>
               <p className="mt-2 px-2 text-[10px] text-sky-100/54">Enter to ask · Shift + Enter for a new line · Esc to close</p>
             </form>

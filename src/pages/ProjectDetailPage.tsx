@@ -30,7 +30,7 @@ export default function ProjectDetailPage({ item }: ProjectDetailPageProps) {
   );
 
   return (
-    <main className="min-h-screen bg-[#f7fbff] text-slate-900">
+    <main id="main-content" className="min-h-screen bg-[#f7fbff] text-slate-900">
       <SiteNav compact />
 
       <section className="px-5 pb-24 pt-32 sm:px-8 lg:px-12">

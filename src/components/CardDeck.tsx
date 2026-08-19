@@ -317,6 +317,7 @@ export default function CardDeck<T>({
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="region"
+      aria-roledescription="carousel"
       aria-label={ariaLabel}
     >
       <div className="card-deck__stage">

@@ -60,6 +60,8 @@ export default function App() {
 
   return (
     <>
+      {/* UI REVIEW FIX [WCAG 2.4.1]: bypass repeated navigation and decorative motion. */}
+      <a className="skip-link" href="#main-content">跳到主要内容</a>
       <OpeningTransition />
       <CursorGlow />
       <PortfolioAI />
