@@ -22,13 +22,16 @@ const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, sectionId: string
 
 export default function SiteNav({ compact = false, theme = "light" }: SiteNavProps) {
   const dark = theme === "dark";
+  const [onLightSurface, setOnLightSurface] = useState(!dark);
   const [menuOpen, setMenuOpen] = useState(false);
   const frameRef = useRef<HTMLElement>(null);
   const scrollFrameRef = useRef<number | null>(null);
+  const isDarkSurface = dark && !onLightSurface;
 
   useEffect(() => {
     const updateScrollState = () => {
       scrollFrameRef.current = null;
+      setOnLightSurface(!dark || window.scrollY > window.innerHeight * 0.82);
       frameRef.current?.classList.toggle("site-nav-frame--scrolled", window.scrollY > 18);
     };
 
@@ -67,24 +70,24 @@ export default function SiteNav({ compact = false, theme = "light" }: SiteNavPro
   };
 
   return (
-    <header ref={frameRef} className={"site-nav-frame fixed left-0 right-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6" + (dark ? " site-nav-frame--dark" : "")}>
+    <header ref={frameRef} className={"site-nav-frame fixed left-0 right-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6" + (isDarkSurface ? " site-nav-frame--dark" : "")}>
       <nav
         aria-label="Primary navigation"
         className={
           "mx-auto flex min-h-12 max-w-7xl items-center justify-between rounded-full px-5 py-2 text-[13px] shadow-glass backdrop-blur-2xl " +
-          (dark ? "border border-white/28 bg-white/16 text-white" : "border border-white/70 bg-white/72 text-slate-700")
+          (isDarkSurface ? "border border-white/28 bg-white/16 text-white" : "border border-white/70 bg-white/72 text-slate-700")
         }
       >
-        <a href="#/archive" data-nav-link="true" className={"site-nav-link rounded-full font-semibold focus-visible:outline-white/90 " + (dark ? "text-white" : "text-inkBlue")}>Portfolio</a>
+        <a href="#/archive" data-nav-link="true" className={"site-nav-link rounded-full font-semibold focus-visible:outline-white/90 " + (isDarkSurface ? "text-white" : "text-inkBlue")}>Portfolio</a>
         <div className="hidden items-center gap-7 sm:flex">
-          <a href="#selected-works" data-nav-link="true" onClick={(event) => scrollToSection(event, "selected-works")} className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (dark ? "hover:text-sky-100" : "hover:text-inkBlue")}>Works</a>
-          <a href="#about-me" data-nav-link="true" onClick={(event) => scrollToSection(event, "about-me")} className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (dark ? "hover:text-sky-100" : "hover:text-inkBlue")}>About</a>
-          <a href="mailto:lhl20040919@gmail.com" data-nav-link="true" className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (dark ? "hover:text-sky-100" : "hover:text-inkBlue")}>Contact</a>
+          <a href="#selected-works" data-nav-link="true" onClick={(event) => scrollToSection(event, "selected-works")} className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (isDarkSurface ? "hover:text-sky-100" : "hover:text-inkBlue")}>Works</a>
+          <a href="#about-me" data-nav-link="true" onClick={(event) => scrollToSection(event, "about-me")} className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (isDarkSurface ? "hover:text-sky-100" : "hover:text-inkBlue")}>About</a>
+          <a href="mailto:lhl20040919@gmail.com" data-nav-link="true" className={"site-nav-link rounded-full focus-visible:outline-white/90 " + (isDarkSurface ? "hover:text-sky-100" : "hover:text-inkBlue")}>Contact</a>
         </div>
         <div className="flex items-center gap-3 sm:hidden">
           <button
             type="button"
-            className={(dark ? "text-white" : "text-inkBlue") + " site-nav-menu-button min-h-11 rounded-full px-3 font-medium focus-visible:outline-white/90"}
+            className={(isDarkSurface ? "text-white" : "text-inkBlue") + " site-nav-menu-button min-h-11 rounded-full px-3 font-medium focus-visible:outline-white/90"}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((current) => !current)}
@@ -94,7 +97,7 @@ export default function SiteNav({ compact = false, theme = "light" }: SiteNavPro
         </div>
       </nav>
       {!compact && (
-        <div className={"pointer-events-none mx-auto mt-3 hidden max-w-7xl justify-end pr-5 text-[11px] uppercase md:flex " + (dark ? "text-white/44" : "text-inkBlue/45")}>PORTFOLIO 2026</div>
+        <div className={"pointer-events-none mx-auto mt-3 hidden max-w-7xl justify-end pr-5 text-[11px] uppercase md:flex " + (isDarkSurface ? "text-white/44" : "text-inkBlue/45")}>PORTFOLIO 2026</div>
       )}
 
       <AnimatePresence initial={false}>
@@ -102,7 +105,7 @@ export default function SiteNav({ compact = false, theme = "light" }: SiteNavPro
           <motion.div id="mobile-navigation" className="site-nav-mobile-layer sm:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <button type="button" className="site-nav-mobile-backdrop" aria-label="关闭导航菜单" onClick={closeMenu} />
             <motion.div
-              className={(dark ? "bg-[#079fe7] text-white" : "bg-white/96 text-slate-900") + " site-nav-mobile-sheet"}
+              className={(isDarkSurface ? "bg-[#079fe7] text-white" : "bg-white/96 text-slate-900") + " site-nav-mobile-sheet"}
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}

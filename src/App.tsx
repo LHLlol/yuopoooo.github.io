@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import CursorGlow from "./components/CursorGlow";
 import OpeningTransition from "./components/OpeningTransition";
 import PortfolioAI from "./components/PortfolioAI";
+import PortfolioFooter from "./components/PortfolioFooter";
 import { getCategoryById, getPortfolioItemById, type PortfolioCategoryId } from "./data/portfolioData";
 import HomePage from "./pages/HomePage";
 import CategoryPage from "./pages/CategoryPage";
@@ -74,6 +75,7 @@ export default function App() {
           {page}
         </motion.div>
       </AnimatePresence>
+      <PortfolioFooter />
     </>
   );
 }
